@@ -1,0 +1,15 @@
+:root {
+  --brand-300: #33c1b1;
+  --brand-400: #2a9d8f;
+  --brand-500: #228176;
+
+  --button-primary-300: #efdf95;
+  --button-primary-400: #e9c46a;
+  --button-primary-500: #e4ba4e;
+
+  --spacing-300: 0.25rem;
+  --spacing-400: 0.5rem;
+  --spacing-500: 0.75rem;
+  --spacing-600: 1rem;
+  --spacing-700: 1.25rem;
+}

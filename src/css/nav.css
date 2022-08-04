@@ -1,0 +1,16 @@
+.nav {
+  width: 100%;
+  background-color: var(--brand-400);
+  padding: var(--spacing-500) var(--spacing-600);
+}
+
+.nav .wrapper {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav .logo {
+  color: #fdfdfd;
+  line-height: 1;
+  margin-bottom: 0;
+}
