@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Modal } from "antd";
+import { signIn } from "../../services/user";
 
 export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -13,11 +14,12 @@ export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
   }, [visible]);
 
   const handleSignIn = async (values) => {
-    console.log("Sign In:", values);
+    const { email, password } = values;
 
-    return new Promise((resolve, reject) => {
-      setTimeout(resolve, 2000);
-    });
+    const status = await signIn({ email, password });
+    if (status === 202) {
+      console.log("redirect to dashboard");
+    }
   };
 
   const handleOk = async () => {
