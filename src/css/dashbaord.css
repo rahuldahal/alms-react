@@ -1,0 +1,13 @@
+.dashboardNav{
+    width: 320px;
+    height: 100%;
+    background-color: var(--brand-500);
+}
+
+.dashboardNav__link{
+    color: var(--button-primary-400);
+}
+
+.dashboardNav__link:hover{
+    color: var(--button-primary-300);
+}

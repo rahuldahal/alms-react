@@ -5,7 +5,7 @@ const { apiBaseURL } = config;
 
 export async function hasAccessToken() {
   try {
-    const { status } = await axios({
+    const {status} = await axios({
       url: `${apiBaseURL}/users/auth`,
       method: "get",
       withCredentials: true,
@@ -20,7 +20,7 @@ export async function hasAccessToken() {
 
 export async function signIn({ email, password }) {
   try {
-    const { status } = await axios({
+    const res = await axios({
       url: `${apiBaseURL}/users/login`,
       method: "post",
       withCredentials: true,
@@ -29,8 +29,8 @@ export async function signIn({ email, password }) {
         password,
       },
     });
-
-    return status;
+    
+    return res;
   } catch (e) {
     console.error(e);
     return e;

@@ -3,8 +3,5 @@
 @import "css/common.css";
 @import "css/nav.css";
 @import "css/landing.css";
+@import "css/dashbaord.css";
 @import "css/overrides.css";
-
-/* https://github.com/adrianhajdin/project_syncfusion_dashboard
-https://github.com/lukemcdonald/holly-react
-https://reactdatepicker.com/ */

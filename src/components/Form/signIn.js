@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Modal } from "antd";
 import { signIn } from "../../services/user";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
+
+  const {setAuth} = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,10 +21,12 @@ export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
   const handleSignIn = async (values) => {
     const { email, password } = values;
 
-    const status = await signIn({ email, password });
+    const {status, data} = await signIn({ email, password });
     if (status === 202) {
+      const {role} = data;
       console.log("redirecting to dashboard");
-      navigate("/dashboard");
+      setAuth({isAuthenticated: true, role});
+      navigate("/dashboard", {replace: true});
     }
   };
 
