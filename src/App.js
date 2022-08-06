@@ -6,6 +6,9 @@ import PrivateRoutes from "./components/PrivateRoutes";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashboard from "./Screens/Dashboard";
+import Students from "./Screens/Students";
+import Teachers from "./Screens/Teachers";
+import HODs from "./Screens/HODs";
 
 function App() {
   return (
@@ -20,7 +23,9 @@ function App() {
             {/* Protected Route */}
             <Route element={<PrivateRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} exact />
-              <Route path="/protectMe" element={<h1>Protected!</h1>} exact />
+              <Route path="/dashboard/students" element={<Students />} exact />
+              <Route path="/dashboard/teachers" element={<Teachers />} exact />
+              <Route path="/dashboard/hods" element={<HODs />} exact />
             </Route>
 
             {/* catch all */}

@@ -1,5 +1,6 @@
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
+import Wrapper from "../components/Wrapper";
 
 export default function Dashboard() {
   const DASHBOARD_BASE = "/dashboard";
@@ -10,7 +11,8 @@ export default function Dashboard() {
   };
 
   return (
-    <Menu className="dashboardNav">
+    <Wrapper className="flex">
+        <Menu className="dashboardNav">
       <Menu.Item key="students">
         <Link className="dashboardNav__link" to={navLinkURLs.student}>
           Students
@@ -30,5 +32,10 @@ export default function Dashboard() {
         </Link>
       </Menu.Item>
     </Menu>
+
+    <section>
+        Main Content!
+    </section>
+    </Wrapper>
   );
 }
