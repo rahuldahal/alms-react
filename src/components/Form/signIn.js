@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Modal } from "antd";
 import { signIn } from "../../services/user";
+import { useNavigate } from "react-router-dom";
 
 export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!visible) {
@@ -18,7 +20,8 @@ export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
 
     const status = await signIn({ email, password });
     if (status === 202) {
-      console.log("redirect to dashboard");
+      console.log("redirecting to dashboard");
+      navigate("/dashboard");
     }
   };
 
