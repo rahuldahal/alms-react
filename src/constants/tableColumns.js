@@ -90,4 +90,19 @@ export const attendancesColumn = [
       },
     ],
   },
+  {
+    title: "Attendance",
+    children: [
+      {
+        title: "Date",
+        dataIndex: "date",
+        render: (date) => date.split("T")[0],
+      },
+      {
+        title: "Status",
+        dataIndex: "isPresent",
+        render: (isPresent) => (isPresent ? "Present" : "Absent"),
+      },
+    ],
+  },
 ];
