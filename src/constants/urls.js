@@ -1,7 +1,22 @@
-const DASHBOARD_BASE = "/dashboard";
+export const USERS_BASE = "/users";
+export const ATTENDANCES_BASE = "/attendances";
 
-export const dashboard = {
-  student: `${DASHBOARD_BASE}/students`,
-  teacher: `${DASHBOARD_BASE}/teachers`,
-  hod: `${DASHBOARD_BASE}/hods`,
+export const users = {
+  students: {
+    ui: `${USERS_BASE}/students`,
+    api: "/students",
+  },
+  teachers: {
+    ui: `${USERS_BASE}/teachers`,
+    api: "/teachers",
+  },
+  hods: {
+    ui: `${USERS_BASE}/hods`,
+    api: "/hods",
+  },
+};
+
+export const attendancesAPI = {
+  subjects: `${ATTENDANCES_BASE}/subjects/:subjectId`,
+  students: `${ATTENDANCES_BASE}/students/:studentId`,
 };

@@ -1,3 +1,7 @@
-.ant-menu-item-active{
-    color: var(--button-primary-400);
+.ant-menu-item-active {
+  color: var(--button-primary-400);
+}
+
+.ant-menu-submenu-open .ant-menu-submenu-title {
+  color: #1890ff;
 }

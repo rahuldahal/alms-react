@@ -6646,6 +6646,11 @@ pify@^2.3.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
   integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
 
+pinterpolate@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/pinterpolate/-/pinterpolate-0.2.3.tgz#d35408cf26670ae2a6dddebfbab06e824a20e382"
+  integrity sha512-ZlNZGJ9ujvZEO8MFwKYWhbaI9v/4kTNIG+4a2AQLdqD1/75/bfzZqUqjeWvjeMKk9D0IJY+XJVio2/N9MfhVtQ==
+
 pirates@^4.0.4:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/pirates/-/pirates-4.0.5.tgz#feec352ea5c3268fb23a37c702ab1699f35a5f3b"

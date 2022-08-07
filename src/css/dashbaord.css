@@ -15,14 +15,6 @@
   padding: 0 !important;
 }
 
-.dashboardNav__link {
-  color: var(--button-primary-400) !important;
-}
-
-.dashboardNav__link:hover {
-  color: var(--button-primary-300) !important;
-}
-
 section {
   width: 100%;
   padding-top: 40px;
