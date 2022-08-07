@@ -3,10 +3,10 @@ import axios from "axios";
 
 const { apiBaseURL } = config;
 
-export async function getAllStudents() {
+export async function getAllTeachers() {
   try {
     const { data } = await axios({
-      url: `${apiBaseURL}/students?populateBy=course%20user`, // TODO: accept populateBy as an argument
+      url: `${apiBaseURL}/teachers?populateBy=user`,
       method: "get",
       withCredentials: true,
     });

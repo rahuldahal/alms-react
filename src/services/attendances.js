@@ -17,3 +17,21 @@ export async function getAllAttendances() {
     return e;
   }
 }
+
+export async function createAttendance(values) {
+  try {
+    const res = await axios({
+      url: `${apiBaseURL}/attendances?populate=all`,
+      method: "post",
+      withCredentials: true,
+      data: {
+        ...values,
+      },
+    });
+
+    return res;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}

@@ -2,6 +2,7 @@ import { Menu } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import { ATTENDANCES_BASE, users } from "../../constants/urls";
+import FormTrigger from "../FormTrigger";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -30,7 +31,13 @@ const items = [
     ),
     getItem(
       // FormTrigger
-      <MenuLink to={ATTENDANCES_BASE} label="Create" />,
+      <FormTrigger
+        type="link"
+        triggers="createAttendance"
+        className="createAttendance"
+      >
+        Create
+      </FormTrigger>,
       "createAttendance",
       null
     ),

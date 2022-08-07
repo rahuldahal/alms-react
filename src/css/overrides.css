@@ -5,3 +5,7 @@
 .ant-menu-submenu-open .ant-menu-submenu-title {
   color: #1890ff;
 }
+
+.ant-picker {
+  width: 100% !important;
+}
