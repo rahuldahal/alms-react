@@ -9,5 +9,5 @@
 #root{
     height: 100vh;
     overflow-y: hidden;
-    background-color: var(--brand-500);
+    /* background-color: var(--brand-500); */
 }
