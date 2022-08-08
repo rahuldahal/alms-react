@@ -1,9 +1,18 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import FormTrigger from "../components/FormTrigger";
 import Title from "../components/Title";
 import Wrapper from "../components/Wrapper";
+import useAuth from "../hooks/useAuth";
 
 export default function Landing() {
+  const {auth} = useAuth();
+  const {isAuthenticated} = auth;
+
+  if(isAuthenticated){
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return (
     <>
       <Wrapper className="hero">

@@ -1,23 +1,16 @@
-import { useEffect, useState } from "react";
-import { Outlet, Navigate } from "react-router-dom";
-import { hasAccessToken } from "../../services/user";
+import { useEffect } from "react";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
-const PrivateRoutes = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(
-    () => async () => {
-      const isAuthenticated = hasAccessToken();
-      setIsAuthenticated(isAuthenticated);
-    },
-    []
-  );
+export default function PrivateRoutes () {
+  const {auth} = useAuth();
+  console.log(auth);
+  const {isAuthenticated} = auth;
+  const location = useLocation();
 
   useEffect(() => {
     console.log({ isAuthenticated });
   }, [isAuthenticated]);
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" state={{from: location}} replace />;
 };
-
-export default PrivateRoutes;

@@ -1,24 +1,51 @@
-import { Button } from "antd";
+import { Button, Form } from "antd";
 import React, { useState } from "react";
+import CreateAttendanceForm from "../Form/createAttendance";
 import SignInForm from "../Form/signIn";
 
-export default function FormTrigger({ size, triggers, className, children }) {
+export default function FormTrigger({
+  type,
+  size,
+  triggers,
+  className,
+  children,
+}) {
   const [makeModalVisible, setMakeModalVisible] = useState(false);
 
   const ctaClickHandler = () => setMakeModalVisible(true);
 
-  const handleSignUp = async (values) => {
-    console.log("Sign Up:", values);
+  let FormComponent;
 
-    return new Promise((resolve, reject) => {
-      setTimeout(resolve, 2000);
-    });
-  };
+  const SignIn = (
+    <SignInForm
+      visible={makeModalVisible}
+      setMakeModalVisible={setMakeModalVisible}
+      onCancel={() => {
+        setMakeModalVisible(false);
+      }}
+    />
+  );
+  const CreateAttendance = (
+    <CreateAttendanceForm
+      visible={makeModalVisible}
+      setMakeModalVisible={setMakeModalVisible}
+      onCancel={() => setMakeModalVisible(false)}
+    />
+  );
+
+  switch (triggers) {
+    case "signIn":
+      FormComponent = SignIn;
+      break;
+    case "createAttendance":
+      FormComponent = CreateAttendance;
+      break;
+  }
 
   return (
     <>
       <Button
-        type="primary"
+        type={type || "primary"}
         size={size}
         className={className}
         onClick={ctaClickHandler}
@@ -26,13 +53,7 @@ export default function FormTrigger({ size, triggers, className, children }) {
         {children}
       </Button>
 
-      <SignInForm
-        visible={makeModalVisible}
-        setMakeModalVisible={setMakeModalVisible}
-        onCancel={() => {
-          setMakeModalVisible(false);
-        }}
-      />
+      {FormComponent}
     </>
   );
 }

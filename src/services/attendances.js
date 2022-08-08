@@ -3,33 +3,32 @@ import axios from "axios";
 
 const { apiBaseURL } = config;
 
-export async function hasAccessToken() {
+export async function getAllAttendances() {
   try {
-    const {status} = await axios({
-      url: `${apiBaseURL}/users/auth`,
+    const { data } = await axios({
+      url: `${apiBaseURL}/attendances?populate=all`,
       method: "get",
       withCredentials: true,
     });
 
-    return status === 200;
+    return data;
   } catch (e) {
     console.error(e);
-    return false;
+    return e;
   }
 }
 
-export async function signIn({ email, password }) {
+export async function createAttendance(values) {
   try {
     const res = await axios({
-      url: `${apiBaseURL}/users/login`,
+      url: `${apiBaseURL}/attendances?populate=all`,
       method: "post",
       withCredentials: true,
       data: {
-        email,
-        password,
+        ...values,
       },
     });
-    
+
     return res;
   } catch (e) {
     console.error(e);

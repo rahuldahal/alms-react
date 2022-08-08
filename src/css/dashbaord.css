@@ -1,0 +1,30 @@
+.dashboard {
+  width: 100%;
+  height: 100vh;
+}
+
+.dashboardNav {
+  width: max-content;
+  height: 100%;
+  background-color: transparent;
+  padding-right: 2rem;
+  padding-top: 40px;
+}
+
+.dashboardNav li {
+  padding: 0 !important;
+}
+
+section {
+  width: 100%;
+  padding-top: 40px;
+  padding-left: 2rem;
+}
+
+section table {
+  text-align: center !important;
+}
+
+section table th {
+  text-align: center !important;
+}
