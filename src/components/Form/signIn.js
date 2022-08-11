@@ -24,9 +24,9 @@ export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
 
     const { status, data } = await signIn({ email, password });
     if (status === 202) {
-      const { role } = data;
+      const { role, _id } = data;
       console.log("redirecting to dashboard");
-      setAuth({ isAuthenticated: true, role });
+      setAuth({ isAuthenticated: true, role, _id });
       navigate(ATTENDANCES_BASE, { replace: true });
     }
   };
