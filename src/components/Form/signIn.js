@@ -3,7 +3,7 @@ import { Form, Input, Modal } from "antd";
 import { signIn } from "../../services/user";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { ATTENDANCES_BASE } from "../../constants/urls";
+import { dashboardDefaults } from "../../constants/urls";
 
 export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -27,7 +27,7 @@ export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
       const { role, _id } = data;
       console.log("redirecting to dashboard");
       setAuth({ isAuthenticated: true, role, _id });
-      navigate(ATTENDANCES_BASE, { replace: true });
+      navigate(dashboardDefaults[role], { replace: true });
     }
   };
 

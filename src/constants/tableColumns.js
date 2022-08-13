@@ -1,4 +1,5 @@
 import { Button, Space } from "antd";
+import { Link } from "react-router-dom";
 
 export const studentsColumn = [
   {
@@ -104,5 +105,37 @@ export const attendancesColumn = [
         render: (isPresent) => (isPresent ? "Present" : "Absent"),
       },
     ],
+  },
+];
+
+export const subjectsColumn = [
+  {
+    title: "Name",
+    dataIndex: "name",
+  },
+  {
+    title: "Semester",
+    dataIndex: "semester",
+  },
+  {
+    title: "Code",
+    dataIndex: "code",
+  },
+  {
+    title: "Course",
+    dataIndex: "course",
+    render: (course) => course.shortName,
+  },
+  {
+    title: "Actions",
+    dataIndex: "_id",
+    render: (id) => (
+      <Space size="middle">
+        <Link to={`/subjects/${id}`} type="primary">
+          View Attendance
+        </Link>
+        <Button type="primary">Create Attendance</Button>
+      </Space>
+    ),
   },
 ];

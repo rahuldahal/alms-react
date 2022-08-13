@@ -9,6 +9,7 @@ import Students from "./Screens/Students";
 import Teachers from "./Screens/Teachers";
 import HODs from "./Screens/HODs";
 import Attendance from "./Screens/Attendance";
+import Subjects from "./Screens/Subjects";
 
 function App() {
   return (
@@ -25,12 +26,7 @@ function App() {
               <PrivateRoutes allowedRoles={["PRINCIPAL", "HOD", "TEACHER"]} />
             }
           >
-            <Route
-              path="/attendances"
-              element={<Attendance />}
-              allowedRoles={["PRINCIPAL"]}
-              exact
-            />
+            <Route path="/attendances" element={<Attendance />} exact />
           </Route>
 
           <Route
@@ -38,32 +34,25 @@ function App() {
               <PrivateRoutes allowedRoles={["PRINCIPAL", "HOD", "TEACHER"]} />
             }
           >
-            <Route
-              path="/users/students"
-              element={<Students />}
-              allowedRoles={["PRINCIPAL"]}
-              exact
-            />
+            <Route path="/subjects" element={<Subjects />} exact />
+          </Route>
+
+          <Route
+            element={
+              <PrivateRoutes allowedRoles={["PRINCIPAL", "HOD", "TEACHER"]} />
+            }
+          >
+            <Route path="/users/students" element={<Students />} exact />
           </Route>
 
           <Route
             element={<PrivateRoutes allowedRoles={["PRINCIPAL", "HOD"]} />}
           >
-            <Route
-              path="/users/teachers"
-              element={<Teachers />}
-              allowedRoles={["PRINCIPAL"]}
-              exact
-            />
+            <Route path="/users/teachers" element={<Teachers />} exact />
           </Route>
 
           <Route element={<PrivateRoutes allowedRoles={["PRINCIPAL"]} />}>
-            <Route
-              path="/users/hods"
-              element={<HODs />}
-              allowedRoles={["PRINCIPAL"]}
-              exact
-            />
+            <Route path="/users/hods" element={<HODs />} exact />
           </Route>
 
           {/* catch all */}
