@@ -10,6 +10,7 @@ import Teachers from "./Screens/Teachers";
 import HODs from "./Screens/HODs";
 import Attendance from "./Screens/Attendance";
 import Subjects from "./Screens/Subjects";
+import StudentsOfASubject from "./Screens/StudentsOfASubject";
 
 function App() {
   return (
@@ -35,6 +36,14 @@ function App() {
             }
           >
             <Route path="/subjects" element={<Subjects />} exact />
+          </Route>
+
+          <Route element={<PrivateRoutes allowedRoles={["TEACHER"]} />}>
+            <Route
+              path="/subjects/students"
+              element={<StudentsOfASubject />}
+              exact
+            />
           </Route>
 
           <Route

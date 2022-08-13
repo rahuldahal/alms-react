@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import Wrapper from "../components/Wrapper";
 import { Table } from "antd";
 import { getAllStudents } from "../services/students";
-import { studentsColumn } from "../constants/tableColumns";
+import {
+  studentsColumnCommon,
+  studentsColumnPrincipalAction,
+} from "../constants/tableColumns";
 import DashboardNav from "../components/DashboardNav";
 
 export default function Students() {
@@ -48,7 +51,7 @@ export default function Students() {
       <section>
         <Table
           bordered
-          columns={studentsColumn}
+          columns={[...studentsColumnCommon, ...studentsColumnPrincipalAction]}
           rowKey={(record) => record._id}
           dataSource={data}
           pagination={pagination}

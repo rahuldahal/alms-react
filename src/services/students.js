@@ -17,3 +17,18 @@ export async function getAllStudents() {
     return e;
   }
 }
+
+export async function getStudentsByCourseAndSemester({ course, semester }) {
+  try {
+    const { data } = await axios({
+      url: `${apiBaseURL}/students?course=${course}&semester=${semester}&populateBy=course%20user`,
+      method: "get",
+      withCredentials: true,
+    });
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}
