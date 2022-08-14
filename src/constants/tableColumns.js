@@ -38,17 +38,17 @@ export const attendancesColumn = [
       {
         title: "FullName",
         dataIndex: "student",
-        render: (student) => student.user.fullName,
+        render: (student) => student?.user?.fullName,
       },
       {
         title: "Email",
         dataIndex: "student",
-        render: (student) => student.user.email,
+        render: (student) => student?.user?.email,
       },
       {
         title: "Batch",
         dataIndex: "student",
-        render: (student) => student.batch,
+        render: (student) => student?.batch,
       },
     ],
   },
@@ -58,12 +58,12 @@ export const attendancesColumn = [
       {
         title: "FullName",
         dataIndex: "teacher",
-        render: (teacher) => teacher.user.fullName,
+        render: (teacher) => teacher?.user?.fullName,
       },
       {
         title: "Email",
         dataIndex: "teacher",
-        render: (teacher) => teacher.user.email,
+        render: (teacher) => teacher?.user?.email,
       },
     ],
   },
@@ -73,12 +73,12 @@ export const attendancesColumn = [
       {
         title: "FullName",
         dataIndex: "subject",
-        render: (subject) => subject.name,
+        render: (subject) => subject?.name,
       },
       {
         title: "Code",
         dataIndex: "subject",
-        render: (subject) => subject.code,
+        render: (subject) => subject?.code,
       },
     ],
   },
@@ -93,7 +93,12 @@ export const attendancesColumn = [
       {
         title: "Status",
         dataIndex: "isPresent",
-        render: (isPresent) => (isPresent ? "Present" : "Absent"),
+        render: (isPresent) =>
+          isPresent ? (
+            <span className="color-green">Present</span>
+          ) : (
+            <span className="color-red">Absent</span>
+          ),
       },
     ],
   },
@@ -135,9 +140,9 @@ export const subjectsColumn = [
   {
     title: "Actions",
     dataIndex: "",
-    render: (_id, record) => (
+    render: (_, record) => (
       <Space size="middle">
-        <Link to={`/attendances/?subjectId=${_id}`} type="primary">
+        <Link to={`/attendances?subject=${record._id}`} type="primary">
           View Attendance
         </Link>
         <Link
