@@ -3,9 +3,16 @@ import Wrapper from "../components/Wrapper";
 import { Table } from "antd";
 import { attendancesColumn } from "../constants/tableColumns";
 import DashboardNav from "../components/DashboardNav";
-import { getAllAttendances } from "../services/attendances";
+import {
+  getAllAttendances,
+  getAttendancesOfSubject,
+} from "../services/attendances";
+import { useSearchParams } from "react-router-dom";
 
 export default function Attendance() {
+  const [searchParams] = useSearchParams();
+  const subject = searchParams.get("subject");
+
   // states
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -16,7 +23,9 @@ export default function Attendance() {
 
   const fetchData = async (params = {}) => {
     setLoading(true);
-    const { attendances, total } = await getAllAttendances();
+    const { attendances, total } = subject
+      ? await getAttendancesOfSubject({ subject })
+      : await getAllAttendances();
 
     setData(attendances);
     setLoading(false);
@@ -31,6 +40,10 @@ export default function Attendance() {
       pagination,
     });
   }, []);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const handleTableChange = (newPagination, filters, sorter) => {
     fetchData({

@@ -18,6 +18,21 @@ export async function getAllAttendances() {
   }
 }
 
+export async function getAttendancesOfSubject({ subject }) {
+  try {
+    const { data } = await axios({
+      url: `${apiBaseURL}/attendances/subjects/${subject}?populate=all`,
+      method: "get",
+      withCredentials: true,
+    });
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}
+
 export async function createAttendance(values) {
   try {
     const res = await axios({
