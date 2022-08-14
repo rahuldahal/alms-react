@@ -13,8 +13,6 @@ export default function StudentsOfASubject() {
   const location = useLocation();
   const { auth } = useAuth();
 
-  console.log(location.state);
-
   const { subjectId, subjectName } = location.state?.data;
 
   const course = searchParams.get("course");
@@ -30,6 +28,8 @@ export default function StudentsOfASubject() {
     pageSize: 10,
   });
 
+  const [disabledButtons, setDisabledButtons] = useState({});
+
   const studentsColumnTeacherAction = [
     {
       title: "Actions",
@@ -41,6 +41,7 @@ export default function StudentsOfASubject() {
               handleAttendance({ student: student._id, isPresent: true })
             }
             type="primary"
+            disabled={!!disabledButtons[student._id]}
           >
             Present
           </Button>
@@ -49,6 +50,7 @@ export default function StudentsOfASubject() {
               handleAttendance({ student: student._id, isPresent: false })
             }
             danger
+            disabled={!!disabledButtons[student._id]}
           >
             Absent
           </Button>
@@ -78,6 +80,10 @@ export default function StudentsOfASubject() {
     });
   }, []);
 
+  useEffect(() => {
+    console.log(disabledButtons);
+  }, [disabledButtons]);
+
   const handleTableChange = (newPagination, filters, sorter) => {
     fetchData({
       sortField: sorter.field,
@@ -88,14 +94,18 @@ export default function StudentsOfASubject() {
   };
 
   async function handleAttendance({ student, isPresent }) {
-    const { status } = await createAttendance({
+    await createAttendance({
       subject: subjectId,
       teacher,
       student,
       isPresent,
       date: new Date().toISOString(),
     });
-    console.log(status);
+
+    setDisabledButtons((previousState) => ({
+      ...previousState,
+      [student]: true,
+    }));
   }
 
   return (
