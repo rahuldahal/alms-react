@@ -9,6 +9,8 @@ import Students from "./Screens/Students";
 import Teachers from "./Screens/Teachers";
 import HODs from "./Screens/HODs";
 import Attendance from "./Screens/Attendance";
+import Subjects from "./Screens/Subjects";
+import StudentsOfASubject from "./Screens/StudentsOfASubject";
 
 function App() {
   return (
@@ -20,10 +22,45 @@ function App() {
           <Route path="/" element={<Landing />} />
 
           {/* Protected Route */}
-          <Route element={<PrivateRoutes />}>
+          <Route
+            element={
+              <PrivateRoutes allowedRoles={["PRINCIPAL", "HOD", "TEACHER"]} />
+            }
+          >
             <Route path="/attendances" element={<Attendance />} exact />
+          </Route>
+
+          <Route
+            element={
+              <PrivateRoutes allowedRoles={["PRINCIPAL", "HOD", "TEACHER"]} />
+            }
+          >
+            <Route path="/subjects" element={<Subjects />} exact />
+          </Route>
+
+          <Route element={<PrivateRoutes allowedRoles={["TEACHER"]} />}>
+            <Route
+              path="/subjects/students"
+              element={<StudentsOfASubject />}
+              exact
+            />
+          </Route>
+
+          <Route
+            element={
+              <PrivateRoutes allowedRoles={["PRINCIPAL", "HOD", "TEACHER"]} />
+            }
+          >
             <Route path="/users/students" element={<Students />} exact />
+          </Route>
+
+          <Route
+            element={<PrivateRoutes allowedRoles={["PRINCIPAL", "HOD"]} />}
+          >
             <Route path="/users/teachers" element={<Teachers />} exact />
+          </Route>
+
+          <Route element={<PrivateRoutes allowedRoles={["PRINCIPAL"]} />}>
             <Route path="/users/hods" element={<HODs />} exact />
           </Route>
 

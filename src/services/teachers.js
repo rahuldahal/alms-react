@@ -17,3 +17,18 @@ export async function getAllTeachers() {
     return e;
   }
 }
+
+export async function getTeacher({ teacherId }) {
+  try {
+    const { data } = await axios({
+      url: `${apiBaseURL}/teachers/?userId=${teacherId}&populateBy=subjects`,
+      method: "get",
+      withCredentials: true,
+    });
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}

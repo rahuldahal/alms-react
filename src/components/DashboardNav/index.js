@@ -2,6 +2,7 @@ import { Menu } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import { ATTENDANCES_BASE, users } from "../../constants/urls";
+import useAuth from "../../hooks/useAuth";
 import FormTrigger from "../FormTrigger";
 
 function getItem(label, key, icon, children, type) {
@@ -22,7 +23,9 @@ function MenuLink({ to, label }) {
   );
 }
 
-const items = [
+// TODO: keep these "items" into constants/
+
+const principalItems = [
   getItem("Attendance", "attendance", null, [
     getItem(
       <MenuLink to={ATTENDANCES_BASE} label="All" />,
@@ -79,7 +82,26 @@ const items = [
   ]),
 ];
 
+const teacherItems = [getItem("Your Subjects", "subjects", null)];
+
+function getNavItems(role) {
+  let item;
+  switch (role) {
+    case "PRINCIPAL":
+      item = principalItems;
+      break;
+    case "TEACHER":
+      item = teacherItems;
+      break;
+  }
+
+  return item;
+}
+
 export default function DashboardNav() {
+  const { auth } = useAuth();
+  const { role } = auth;
+
   const onClick = (e) => {
     console.log("click ", e);
   };
@@ -93,7 +115,7 @@ export default function DashboardNav() {
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={["attendance"]}
       mode="inline"
-      items={items}
+      items={getNavItems(role)}
     />
   );
 }

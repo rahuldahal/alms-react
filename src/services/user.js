@@ -3,10 +3,10 @@ import axios from "axios";
 
 const { apiBaseURL } = config;
 
-export async function hasAccessToken() {
+export async function signOut() {
   try {
-    const {status} = await axios({
-      url: `${apiBaseURL}/users/auth`,
+    const { status } = await axios({
+      url: `${apiBaseURL}/users/signOut`,
       method: "get",
       withCredentials: true,
     });
@@ -29,7 +29,7 @@ export async function signIn({ email, password }) {
         password,
       },
     });
-    
+
     return res;
   } catch (e) {
     console.error(e);

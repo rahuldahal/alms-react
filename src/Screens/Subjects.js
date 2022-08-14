@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "../components/Wrapper";
 import { Table } from "antd";
-import { getAllStudents } from "../services/students";
-import {
-  studentsColumnCommon,
-  studentsColumnPrincipalAction,
-} from "../constants/tableColumns";
+import { subjectsColumn } from "../constants/tableColumns";
 import DashboardNav from "../components/DashboardNav";
+import { getTeacher } from "../services/teachers";
+import useAuth from "../hooks/useAuth";
 
-export default function Students() {
+export default function Subjects() {
+  const { auth } = useAuth();
+  console.log(auth);
+  const { _id } = auth;
+
   // states
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -19,13 +21,14 @@ export default function Students() {
 
   const fetchData = async (params = {}) => {
     setLoading(true);
-    const { students, total } = await getAllStudents();
+    const { teacher } = await getTeacher({ teacherId: _id });
+    const { subjects } = teacher;
 
-    setData(students);
+    setData(subjects);
     setLoading(false);
     setPagination({
       ...params.pagination,
-      total,
+      total: subjects?.length || 0,
     });
   };
 
@@ -51,7 +54,7 @@ export default function Students() {
       <section>
         <Table
           bordered
-          columns={[...studentsColumnCommon, ...studentsColumnPrincipalAction]}
+          columns={subjectsColumn}
           rowKey={(record) => record._id}
           dataSource={data}
           pagination={pagination}

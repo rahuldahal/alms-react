@@ -1,6 +1,8 @@
-import { Button, Space } from "antd";
+import { Space } from "antd";
+import { Link } from "react-router-dom";
+import FormTrigger from "../components/FormTrigger";
 
-export const studentsColumn = [
+export const studentsColumnCommon = [
   {
     title: "Fullname",
     dataIndex: "user",
@@ -26,16 +28,6 @@ export const studentsColumn = [
   {
     title: "Semester",
     dataIndex: "semester",
-  },
-  {
-    title: "Actions",
-    dataIndex: "user",
-    render: (name) => (
-      <Space size="middle">
-        <Button type="primary">Edit</Button>
-        <Button danger>Delete</Button>
-      </Space>
-    ),
   },
 ];
 
@@ -104,5 +96,59 @@ export const attendancesColumn = [
         render: (isPresent) => (isPresent ? "Present" : "Absent"),
       },
     ],
+  },
+];
+
+export const studentsColumnPrincipalAction = [
+  {
+    title: "Actions",
+    dataIndex: "user",
+    render: (student) => (
+      <FormTrigger
+        triggers="createAttendance"
+        additionalData={{ studentId: student._id }}
+      >
+        Create Attendance
+      </FormTrigger>
+    ),
+  },
+];
+
+export const subjectsColumn = [
+  {
+    title: "Name",
+    dataIndex: "name",
+  },
+  {
+    title: "Semester",
+    dataIndex: "semester",
+  },
+  {
+    title: "Code",
+    dataIndex: "code",
+  },
+  {
+    title: "Course",
+    dataIndex: "course",
+    render: (course) => course.shortName,
+  },
+  {
+    title: "Actions",
+    dataIndex: "",
+    render: (_id, record) => (
+      <Space size="middle">
+        <Link to={`/attendances/?subjectId=${_id}`} type="primary">
+          View Attendance
+        </Link>
+        <Link
+          to={`/subjects/students?course=${record.course._id}&semester=${record.semester}`}
+          state={{ data: { subjectName: record.name, subjectId: record._id } }}
+          type="primary"
+          className="ant-btn ant-btn-primary"
+        >
+          Create Attendance
+        </Link>
+      </Space>
+    ),
   },
 ];

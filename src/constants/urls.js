@@ -20,3 +20,8 @@ export const attendancesAPI = {
   subjects: `${ATTENDANCES_BASE}/subjects/:subjectId`,
   students: `${ATTENDANCES_BASE}/students/:studentId`,
 };
+
+export const dashboardDefaults = {
+  PRINCIPAL: "/attendances",
+  TEACHER: "/subjects",
+};
