@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 import Wrapper from "../components/Wrapper";
 import { Button, Space, Table } from "antd";
-import { getStudentsByCourseAndSemester } from "../services/students";
-import { studentsColumnCommon } from "../constants/tableColumns";
+import React, { useEffect, useState } from "react";
 import DashboardNav from "../components/DashboardNav";
-import { useLocation, useSearchParams } from "react-router-dom";
 import { createAttendance } from "../services/attendances";
-import useAuth from "../hooks/useAuth";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { studentsColumnCommon } from "../constants/tableColumns";
+import { getStudentsByCourseAndSemester } from "../services/students";
+
 
 export default function StudentsOfASubject() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const { auth } = useAuth();
 
+  console.log(auth);
+
   const { subjectId, subjectName } = location.state?.data;
 
   const course = searchParams.get("course");
   const semester = searchParams.get("semester");
 
-  const { _id: teacher } = auth;
+  const { teacherId } = auth;
 
   // states
   const [data, setData] = useState();
@@ -33,24 +36,20 @@ export default function StudentsOfASubject() {
   const studentsColumnTeacherAction = [
     {
       title: "Actions",
-      dataIndex: "user",
-      render: (student) => (
+      dataIndex: "_id",
+      render: (_id) => (
         <Space>
           <Button
-            onClick={() =>
-              handleAttendance({ student: student._id, isPresent: true })
-            }
+            onClick={() => handleAttendance({ student: _id, isPresent: true })}
             type="primary"
-            disabled={!!disabledButtons[student._id]}
+            disabled={!!disabledButtons[_id]}
           >
             Present
           </Button>
           <Button
-            onClick={() =>
-              handleAttendance({ student: student._id, isPresent: false })
-            }
+            onClick={() => handleAttendance({ student: _id, isPresent: false })}
             danger
-            disabled={!!disabledButtons[student._id]}
+            disabled={!!disabledButtons[_id]}
           >
             Absent
           </Button>
@@ -94,13 +93,14 @@ export default function StudentsOfASubject() {
   };
 
   async function handleAttendance({ student, isPresent }) {
-    await createAttendance({
-      subject: subjectId,
-      teacher,
-      student,
-      isPresent,
-      date: new Date().toISOString(),
-    });
+    return console.log(student, teacherId);
+    // await createAttendance({
+    //   subject: subjectId,
+    //   teacher,
+    //   student,
+    //   isPresent,
+    //   date: new Date().toISOString(),
+    // });
 
     setDisabledButtons((previousState) => ({
       ...previousState,

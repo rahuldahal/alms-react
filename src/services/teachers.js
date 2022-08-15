@@ -18,10 +18,10 @@ export async function getAllTeachers() {
   }
 }
 
-export async function getTeacher({ teacherId }) {
+export async function getTeacherByUserId({ userId }) {
   try {
     const { data } = await axios({
-      url: `${apiBaseURL}/teachers/?userId=${teacherId}&populateBy=subjects`,
+      url: `${apiBaseURL}/teachers/?userId=${userId}&populateBy=subjects`,
       method: "get",
       withCredentials: true,
     });

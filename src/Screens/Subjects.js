@@ -3,12 +3,11 @@ import Wrapper from "../components/Wrapper";
 import { Table } from "antd";
 import { subjectsColumn } from "../constants/tableColumns";
 import DashboardNav from "../components/DashboardNav";
-import { getTeacher } from "../services/teachers";
+import { getTeacherByUserId } from "../services/teachers";
 import useAuth from "../hooks/useAuth";
 
 export default function Subjects() {
-  const { auth } = useAuth();
-  console.log(auth);
+  const { auth, setAuth } = useAuth();
   const { _id } = auth;
 
   // states
@@ -21,9 +20,10 @@ export default function Subjects() {
 
   const fetchData = async (params = {}) => {
     setLoading(true);
-    const { teacher } = await getTeacher({ teacherId: _id });
-    const { subjects } = teacher;
+    const { teacher } = await getTeacherByUserId({ userId: _id });
+    const { _id: teacherId, subjects } = teacher;
 
+    setAuth((auth) => ({ ...auth, teacherId }));
     setData(subjects);
     setLoading(false);
     setPagination({
