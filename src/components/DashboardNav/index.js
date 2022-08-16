@@ -5,7 +5,7 @@ import { ATTENDANCES_BASE, users } from "../../constants/urls";
 import useAuth from "../../hooks/useAuth";
 import FormTrigger from "../FormTrigger";
 
-function getItem(label, key, icon, children, type) {
+export function getItem(label, key, icon, children, type) {
   return {
     key,
     icon,
@@ -15,7 +15,7 @@ function getItem(label, key, icon, children, type) {
   };
 }
 
-function MenuLink({ to, label }) {
+export function MenuLink({ to, label }) {
   return (
     <Link className="dashboardNav__link" to={to}>
       {label}
@@ -82,23 +82,18 @@ const principalItems = [
   ]),
 ];
 
-const teacherItems = [getItem("Your Subjects", "subjects", null)];
-
 function getNavItems(role) {
   let item;
   switch (role) {
     case "PRINCIPAL":
       item = principalItems;
       break;
-    case "TEACHER":
-      item = teacherItems;
-      break;
   }
 
   return item;
 }
 
-export default function DashboardNav() {
+export default function DashboardNav({ navItems, defaultOpenKey }) {
   const { auth } = useAuth();
   const { role } = auth;
 
@@ -113,9 +108,9 @@ export default function DashboardNav() {
         width: 256,
       }}
       defaultSelectedKeys={["1"]}
-      defaultOpenKeys={["attendance"]}
+      defaultOpenKeys={[defaultOpenKey]}
       mode="inline"
-      items={getNavItems(role)}
+      items={navItems || getNavItems(role)}
     />
   );
 }
