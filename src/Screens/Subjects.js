@@ -7,8 +7,8 @@ import { getTeacherByUserId } from "../services/teachers";
 import useAuth from "../hooks/useAuth";
 
 export default function Subjects() {
-  const { auth, setAuth } = useAuth();
-  const { _id } = auth;
+  const { auth } = useAuth();
+  const { userId } = auth;
 
   // states
   const [data, setData] = useState();
@@ -20,10 +20,9 @@ export default function Subjects() {
 
   const fetchData = async (params = {}) => {
     setLoading(true);
-    const { teacher } = await getTeacherByUserId({ userId: _id });
-    const { _id: teacherId, subjects } = teacher;
+    const { teacher } = await getTeacherByUserId({ userId });
+    const { subjects } = teacher;
 
-    setAuth((auth) => ({ ...auth, teacherId }));
     setData(subjects);
     setLoading(false);
     setPagination({

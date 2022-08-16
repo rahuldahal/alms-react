@@ -8,7 +8,6 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { studentsColumnCommon } from "../constants/tableColumns";
 import { getStudentsByCourseAndSemester } from "../services/students";
 
-
 export default function StudentsOfASubject() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
@@ -93,14 +92,13 @@ export default function StudentsOfASubject() {
   };
 
   async function handleAttendance({ student, isPresent }) {
-    return console.log(student, teacherId);
-    // await createAttendance({
-    //   subject: subjectId,
-    //   teacher,
-    //   student,
-    //   isPresent,
-    //   date: new Date().toISOString(),
-    // });
+    await createAttendance({
+      subject: subjectId,
+      teacher: teacherId,
+      student,
+      isPresent,
+      date: new Date().toISOString(),
+    });
 
     setDisabledButtons((previousState) => ({
       ...previousState,
