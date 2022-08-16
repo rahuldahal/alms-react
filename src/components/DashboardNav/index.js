@@ -110,7 +110,7 @@ export default function DashboardNav({ navItems, defaultOpenKey }) {
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={[defaultOpenKey]}
       mode="inline"
-      items={navItems || getNavItems(role)}
+      items={navItems?.length || getNavItems(role)}
     />
   );
 }

@@ -48,8 +48,6 @@ export default function Subjects() {
 
   return (
     <Wrapper className="flex dashboard">
-      <DashboardNav />
-
       <section>
         <Table
           bordered

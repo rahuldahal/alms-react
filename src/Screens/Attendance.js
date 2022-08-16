@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Wrapper from "../components/Wrapper";
 import { Table } from "antd";
 import { attendancesColumn } from "../constants/tableColumns";
-import DashboardNav from "../components/DashboardNav";
+import DashboardNav, { getItem, MenuLink } from "../components/DashboardNav";
 import {
   getAllAttendances,
   getAttendancesOfSubject,
@@ -14,12 +14,27 @@ export default function Attendance() {
   const subject = searchParams.get("subject");
 
   // states
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+  const [navItems, setNavItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
+
+  useEffect(() => {
+    if (!subject || !data.length) {
+      return;
+    }
+
+    setNavItems([
+      getItem(
+        <MenuLink to={`/subjects`} label="View Subjects" />,
+        "viewSubjects",
+        null
+      ),
+    ]);
+  }, [data]);
 
   const fetchData = async (params = {}) => {
     setLoading(true);
@@ -56,7 +71,7 @@ export default function Attendance() {
 
   return (
     <Wrapper className="flex dashboard">
-      <DashboardNav />
+      <DashboardNav navItems={navItems} />
 
       <section>
         <Table
