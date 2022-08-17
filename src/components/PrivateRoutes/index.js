@@ -9,7 +9,7 @@ export default function PrivateRoutes({ allowedRoles }) {
   const location = useLocation();
 
   useEffect(() => {
-    console.log({ isAuthenticated });
+    console.log({ isAuthenticated, allowedRoles, role });
   }, [isAuthenticated]);
 
   return isAuthenticated && allowedRoles.includes(role) ? (
