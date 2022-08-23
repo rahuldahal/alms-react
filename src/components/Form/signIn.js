@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Modal } from "antd";
-import { signIn } from "../../services/user";
+import { getAuthStatus, signIn } from "../../services/user";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { dashboardDefaults } from "../../constants/urls";
-import { getTeacherByUserId } from "../../services/teachers";
 
 export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -23,25 +22,14 @@ export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
   const handleSignIn = async (values) => {
     const { email, password } = values;
 
-    const { status, data } = await signIn({ email, password });
+    const { status } = await signIn({ email, password });
     if (status === 202) {
-      const { role, _id: userId } = data;
-      // if(role === 'PRINCIPAL'){
-      //   const { _id:teacherId } = await getTeacherByUserId({userId });
-      //   setAuth({ isAuthenticated: true, role, userId, teacherId });
-      // }
-      if (role === "TEACHER") {
-        const { teacher } = await getTeacherByUserId({ userId });
-        const { _id: teacherId } = teacher;
+      const { data } = await getAuthStatus();
+      const { authStatus } = data;
+      setAuth({ ...authStatus });
 
-        setAuth({ isAuthenticated: true, role, userId, teacherId });
-      }
-      // if(role === 'STUDENT'){
-      //   const { _id:teacherId } = await getTeacherByUserId({userId });
-      //   setAuth({ isAuthenticated: true, role, userId, teacherId });
-      // }
       console.log("redirecting to dashboard");
-      navigate(dashboardDefaults[role], { replace: true });
+      navigate(dashboardDefaults[authStatus.role], { replace: true });
     }
   };
 

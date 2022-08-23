@@ -36,3 +36,18 @@ export async function signIn({ email, password }) {
     return e;
   }
 }
+
+export async function getAuthStatus() {
+  try {
+    const res = await axios({
+      url: `${apiBaseURL}/users/checkAuth`,
+      method: "get",
+      withCredentials: true,
+    });
+
+    return res;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}

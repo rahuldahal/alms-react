@@ -12,20 +12,26 @@ import Attendance from "./Screens/Attendance";
 import Subjects from "./Screens/Subjects";
 import StudentsOfASubject from "./Screens/StudentsOfASubject";
 import useAuth from "./hooks/useAuth";
+import { getAuthStatus } from "./services/user";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const { auth, setAuth } = useAuth();
 
   useEffect(() => {
-    setTimeout(() => setAuth({ isAuthenticated: true, role: "TEACHER" }), 2000);
-  }, []);
+    (async () => {
+      try {
+        const { data } = await getAuthStatus();
+        const { authStatus } = data;
 
-  useEffect(() => {
-    if (auth.isAuthenticated) {
-      setIsLoading(false);
-    }
-  }, [auth]);
+        setAuth({ ...authStatus });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   return (
     <>
