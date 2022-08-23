@@ -53,7 +53,11 @@ export const attendancesColumnPrincipal = [
       {
         title: "FullName",
         dataIndex: "subject",
-        render: (subject) => subject?.name,
+        render: (subject) => (
+          <Link to={`/attendances?subject=${subject?._id}`} type="primary">
+            {subject?.name}
+          </Link>
+        ),
       },
     ],
   },

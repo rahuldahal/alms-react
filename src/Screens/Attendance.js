@@ -7,7 +7,7 @@ import {
   getAllAttendances,
   getAttendancesOfSubject,
 } from "../services/attendances";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Title from "../components/Title";
 
@@ -180,21 +180,36 @@ export default function Attendance() {
     },
   ];
 
-  return (
+  return subject ? (
     <Wrapper className="flex dashboard">
       <DashboardNav navItems={navItems} />
 
       <section>
-        {isTeacher && data.length ? (
+        {data.length ? (
           <Title level={2}>Subject: {data[0].subject.name}</Title>
         ) : null}
         <Table
           bordered
-          columns={
-            isTeacher
-              ? attendancesColumnCommon
-              : [...attendancesColumnCommon, ...attendancesColumnPrincipal]
-          }
+          columns={attendancesColumnCommon}
+          rowKey={(record) => record._id}
+          dataSource={filteredData.length ? filteredData : data}
+          pagination={pagination}
+          loading={loading}
+          onChange={handleTableChange}
+        />
+      </section>
+    </Wrapper>
+  ) : (
+    <Wrapper className="flex dashboard">
+      <DashboardNav navItems={navItems} />
+
+      <section>
+        {data.length ? (
+          <Title level={2}>Subject: {data[0].subject.name}</Title>
+        ) : null}
+        <Table
+          bordered
+          columns={[...attendancesColumnCommon, ...attendancesColumnPrincipal]}
           rowKey={(record) => record._id}
           dataSource={filteredData.length ? filteredData : data}
           pagination={pagination}
