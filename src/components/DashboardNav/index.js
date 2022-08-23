@@ -93,7 +93,7 @@ function getNavItems(role) {
   return item;
 }
 
-export default function DashboardNav({ navItems, defaultOpenKey }) {
+export default function DashboardNav({ navItems = [], defaultOpenKey }) {
   const { auth } = useAuth();
   const { role } = auth;
 
@@ -110,7 +110,7 @@ export default function DashboardNav({ navItems, defaultOpenKey }) {
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={[defaultOpenKey]}
       mode="inline"
-      items={navItems?.length || getNavItems(role)}
+      items={navItems.length ? navItems : getNavItems(role)}
     />
   );
 }
