@@ -1,6 +1,7 @@
 import { Button, Form } from "antd";
 import React, { useState } from "react";
 import CreateAttendanceForm from "../Form/createAttendance";
+import CreateStudentForm from "../Form/createStudent";
 import SignInForm from "../Form/signIn";
 
 export default function FormTrigger({
@@ -32,6 +33,13 @@ export default function FormTrigger({
       onCancel={() => setMakeModalVisible(false)}
     />
   );
+  const CreateStudent = (
+    <CreateStudentForm
+      visible={makeModalVisible}
+      setMakeModalVisible={setMakeModalVisible}
+      onCancel={() => setMakeModalVisible(false)}
+    />
+  );
 
   switch (triggers) {
     case "signIn":
@@ -39,6 +47,9 @@ export default function FormTrigger({
       break;
     case "createAttendance":
       FormComponent = CreateAttendance;
+      break;
+    case "createStudent":
+      FormComponent = CreateStudent;
       break;
   }
 

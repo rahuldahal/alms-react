@@ -9,3 +9,7 @@
 .ant-picker {
   width: 100% !important;
 }
+
+.ant-input-number {
+  width: 100%;
+}
