@@ -5,7 +5,7 @@ import Wrapper from "../Wrapper";
 import FormTrigger from "../FormTrigger";
 import useAuth from "../../hooks/useAuth";
 import { signOut } from "../../services/user";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Nav({ isLoading }) {
   const { auth, setAuth } = useAuth();
@@ -25,9 +25,11 @@ export default function Nav({ isLoading }) {
   return (
     <nav className="nav">
       <Wrapper className="flex">
-        <Title level={4} className="logo">
-          ALMS
-        </Title>
+        <Link to="/">
+          <Title level={4} className="logo">
+            ALMS
+          </Title>
+        </Link>
 
         {!isAuthenticated ? (
           <FormTrigger triggers="signIn" className="CTA">

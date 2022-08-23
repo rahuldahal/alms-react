@@ -72,7 +72,13 @@ const principalItems = [
     ),
     getItem(
       // FormTrigger
-      <MenuLink to={users.teachers.api} label="Create" />,
+      <FormTrigger
+        type="link"
+        triggers="createTeacher"
+        className="createTeacher"
+      >
+        Create
+      </FormTrigger>,
       "createTeacher",
       null
     ),
