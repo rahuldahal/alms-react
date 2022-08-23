@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Button, DatePicker, Space } from "antd";
 import { Link } from "react-router-dom";
 import FormTrigger from "../components/FormTrigger";
 
@@ -54,49 +54,6 @@ export const attendancesColumnPrincipal = [
         title: "FullName",
         dataIndex: "subject",
         render: (subject) => subject?.name,
-      },
-    ],
-  },
-];
-
-export const attendancesColumnCommon = [
-  {
-    title: "Student",
-    children: [
-      {
-        title: "FullName",
-        dataIndex: "student",
-        render: (student) => student?.user?.fullName,
-      },
-      {
-        title: "Email",
-        dataIndex: "student",
-        render: (student) => student?.user?.email,
-      },
-      {
-        title: "Batch",
-        dataIndex: "student",
-        render: (student) => student?.batch,
-      },
-    ],
-  },
-  {
-    title: "Attendance",
-    children: [
-      {
-        title: "Date",
-        dataIndex: "date",
-        render: (date) => date.split("T")[0],
-      },
-      {
-        title: "Status",
-        dataIndex: "isPresent",
-        render: (isPresent) =>
-          isPresent ? (
-            <span className="color-green">Present</span>
-          ) : (
-            <span className="color-red">Absent</span>
-          ),
       },
     ],
   },

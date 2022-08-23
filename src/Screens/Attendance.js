@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "../components/Wrapper";
-import { Table } from "antd";
-import {
-  attendancesColumnCommon,
-  attendancesColumnPrincipal,
-} from "../constants/tableColumns";
+import { Button, DatePicker, Space, Table } from "antd";
+import { attendancesColumnPrincipal } from "../constants/tableColumns";
 import DashboardNav, { getItem, MenuLink } from "../components/DashboardNav";
 import {
   getAllAttendances,
@@ -25,6 +22,7 @@ export default function Attendance() {
 
   // states
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [navItems, setNavItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
@@ -66,10 +64,6 @@ export default function Attendance() {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const handleTableChange = (newPagination, filters, sorter) => {
     fetchData({
       sortField: sorter.field,
@@ -78,6 +72,113 @@ export default function Attendance() {
       ...filters,
     });
   };
+
+  const handleDateFilter = (date) => {
+    if (date === null) {
+      return setFilteredData([]);
+    }
+
+    const filteredData = data.filter((record) => {
+      const recordDate = record.date.split("T")[0];
+      const valueOfDate = new Date(date).valueOf();
+      const valueOfRecord = new Date(recordDate).valueOf();
+
+      return valueOfDate === valueOfRecord;
+    });
+
+    setFilteredData(filteredData);
+  };
+
+  const attendancesColumnCommon = [
+    {
+      title: "Student",
+      children: [
+        {
+          title: "FullName",
+          dataIndex: "student",
+          render: (student) => student?.user?.fullName,
+        },
+        {
+          title: "Email",
+          dataIndex: "student",
+          render: (student) => student?.user?.email,
+        },
+        {
+          title: "Batch",
+          dataIndex: "student",
+          render: (student) => student?.batch,
+        },
+      ],
+    },
+    {
+      title: "Attendance",
+      children: [
+        {
+          title: "Date",
+          dataIndex: "date",
+          render: (date) => date.split("T")[0],
+          filterDropdown: ({
+            setSelectedKeys,
+            selectedKeys,
+            confirm,
+            clearFilters,
+          }) => (
+            <>
+              <DatePicker
+                // format={"DD-MM-YY"}
+                onChange={(e) => {
+                  setSelectedKeys([e.format("YYYY-MM-DD")]);
+                }}
+                allowClear={false}
+              />
+              <Space>
+                <Button
+                  type="primary"
+                  size="small"
+                  onClick={() => {
+                    handleDateFilter(selectedKeys[0]);
+                    confirm({ closeDropdown: true });
+                  }}
+                >
+                  Filter
+                </Button>
+                <Button
+                  size="small"
+                  onClick={() => {
+                    handleDateFilter(null);
+                    clearFilters();
+                  }}
+                >
+                  Reset
+                </Button>
+              </Space>
+            </>
+          ),
+        },
+        {
+          title: "Status",
+          dataIndex: "isPresent",
+          render: (isPresent) =>
+            isPresent ? (
+              <span className="color-green">Present</span>
+            ) : (
+              <span className="color-red">Absent</span>
+            ),
+          filters: [
+            {
+              text: "Present",
+              value: true,
+            },
+            {
+              text: "Absent",
+              value: false,
+            },
+          ],
+          onFilter: (value, record) => record.isPresent === value,
+        },
+      ],
+    },
+  ];
 
   return (
     <Wrapper className="flex dashboard">
@@ -95,7 +196,7 @@ export default function Attendance() {
               : [...attendancesColumnCommon, ...attendancesColumnPrincipal]
           }
           rowKey={(record) => record._id}
-          dataSource={data}
+          dataSource={filteredData.length ? filteredData : data}
           pagination={pagination}
           loading={loading}
           onChange={handleTableChange}
