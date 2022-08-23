@@ -31,27 +31,7 @@ export const studentsColumnCommon = [
   },
 ];
 
-export const attendancesColumn = [
-  {
-    title: "Student",
-    children: [
-      {
-        title: "FullName",
-        dataIndex: "student",
-        render: (student) => student?.user?.fullName,
-      },
-      {
-        title: "Email",
-        dataIndex: "student",
-        render: (student) => student?.user?.email,
-      },
-      {
-        title: "Batch",
-        dataIndex: "student",
-        render: (student) => student?.batch,
-      },
-    ],
-  },
+export const attendancesColumnPrincipal = [
   {
     title: "Teacher",
     children: [
@@ -75,10 +55,28 @@ export const attendancesColumn = [
         dataIndex: "subject",
         render: (subject) => subject?.name,
       },
+    ],
+  },
+];
+
+export const attendancesColumnCommon = [
+  {
+    title: "Student",
+    children: [
       {
-        title: "Code",
-        dataIndex: "subject",
-        render: (subject) => subject?.code,
+        title: "FullName",
+        dataIndex: "student",
+        render: (student) => student?.user?.fullName,
+      },
+      {
+        title: "Email",
+        dataIndex: "student",
+        render: (student) => student?.user?.email,
+      },
+      {
+        title: "Batch",
+        dataIndex: "student",
+        render: (student) => student?.batch,
       },
     ],
   },
