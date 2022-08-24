@@ -12,6 +12,7 @@ export default function CreateTeacherForm({
   onCancel,
 }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [additionalWorkingHour, setAdditionalWorkingHour] = useState(false);
   const [form] = Form.useForm();
 
   const [subjectPlaceholder, setSubjectPlaceholder] = useState(
@@ -145,43 +146,46 @@ export default function CreateTeacherForm({
           </Select>
         </Form.Item>
 
-        <Form.List
+        <Form.Item
           label="Working Hours"
           name="workingHours"
           rules={[
             {
               required: true,
-              message: "Please enter the working hours!",
+              message: "Please input the working hours!",
             },
           ]}
         >
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map((field, index) => (
-                <Space
-                  key={field.key}
-                  style={{ display: "flex", marginBottom: 8 }}
-                  align="baseline"
-                >
-                  <Form.Item {...field} name={[field.name, index]}>
-                    <Input placeholder="working hour" />
-                  </Form.Item>
-                  <MinusCircleOutlined onClick={() => remove(field.name)} />
-                </Space>
-              ))}
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                >
-                  Add item
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
+          <div className="flex">
+            <TimePicker
+              format="HH:mm"
+              placeholder="Start Time"
+              className="mr-2"
+            />
+            <TimePicker format="HH:mm" placeholder="End Time" />
+          </div>
+          {additionalWorkingHour ? (
+            <div className="flex">
+              <TimePicker
+                format="HH:mm"
+                placeholder="Start Time"
+                className="mr-2"
+              />
+              <TimePicker format="HH:mm" placeholder="End Time" />
+            </div>
+          ) : null}
+        </Form.Item>
+
+        {!additionalWorkingHour ? (
+          <Button
+            type="dashed"
+            onClick={(e) => setAdditionalWorkingHour(true)}
+            block
+            icon={<PlusOutlined />}
+          >
+            Add Working Hour
+          </Button>
+        ) : null}
       </Form>
     </Modal>
   );
