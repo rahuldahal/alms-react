@@ -2,7 +2,7 @@
   width: 100%;
   background-color: var(--brand-400);
   padding: var(--spacing-500) var(--spacing-600);
-  box-shadow: 8px 16px -8px rgba(0, 0, 0, .4);
+  box-shadow: 8px 16px -8px rgba(0, 0, 0, 0.4);
 }
 
 .nav .wrapper {
@@ -14,4 +14,9 @@
   color: #fdfdfd;
   line-height: 1;
   margin-bottom: 0;
+}
+
+.avatar {
+  border: 1px solid #fdfdfd;
+  border-radius: 50%;
 }

@@ -32,3 +32,21 @@ export async function getStudentsByCourseAndSemester({ course, semester }) {
     return e;
   }
 }
+
+export async function createStudent(values) {
+  try {
+    const res = await axios({
+      url: `${apiBaseURL}/students`,
+      method: "post",
+      withCredentials: true,
+      data: {
+        ...values,
+      },
+    });
+
+    return res;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}

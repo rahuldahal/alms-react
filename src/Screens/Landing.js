@@ -3,14 +3,15 @@ import { Navigate } from "react-router-dom";
 import FormTrigger from "../components/FormTrigger";
 import Title from "../components/Title";
 import Wrapper from "../components/Wrapper";
+import { dashboardDefaults } from "../constants/urls";
 import useAuth from "../hooks/useAuth";
 
 export default function Landing() {
-  const {auth} = useAuth();
-  const {isAuthenticated} = auth;
+  const { auth } = useAuth();
+  const { isAuthenticated, role } = auth;
 
-  if(isAuthenticated){
-    return <Navigate to="/dashboard" replace />;
+  if (isAuthenticated) {
+    return <Navigate to={dashboardDefaults[role]} replace />;
   }
 
   return (

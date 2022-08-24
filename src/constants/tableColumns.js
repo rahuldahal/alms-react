@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Button, DatePicker, Space } from "antd";
 import { Link } from "react-router-dom";
 import FormTrigger from "../components/FormTrigger";
 
@@ -31,27 +31,7 @@ export const studentsColumnCommon = [
   },
 ];
 
-export const attendancesColumn = [
-  {
-    title: "Student",
-    children: [
-      {
-        title: "FullName",
-        dataIndex: "student",
-        render: (student) => student?.user?.fullName,
-      },
-      {
-        title: "Email",
-        dataIndex: "student",
-        render: (student) => student?.user?.email,
-      },
-      {
-        title: "Batch",
-        dataIndex: "student",
-        render: (student) => student?.batch,
-      },
-    ],
-  },
+export const attendancesColumnPrincipal = [
   {
     title: "Teacher",
     children: [
@@ -59,11 +39,6 @@ export const attendancesColumn = [
         title: "FullName",
         dataIndex: "teacher",
         render: (teacher) => teacher?.user?.fullName,
-      },
-      {
-        title: "Email",
-        dataIndex: "teacher",
-        render: (teacher) => teacher?.user?.email,
       },
     ],
   },
@@ -73,32 +48,11 @@ export const attendancesColumn = [
       {
         title: "FullName",
         dataIndex: "subject",
-        render: (subject) => subject?.name,
-      },
-      {
-        title: "Code",
-        dataIndex: "subject",
-        render: (subject) => subject?.code,
-      },
-    ],
-  },
-  {
-    title: "Attendance",
-    children: [
-      {
-        title: "Date",
-        dataIndex: "date",
-        render: (date) => date.split("T")[0],
-      },
-      {
-        title: "Status",
-        dataIndex: "isPresent",
-        render: (isPresent) =>
-          isPresent ? (
-            <span className="color-green">Present</span>
-          ) : (
-            <span className="color-red">Absent</span>
-          ),
+        render: (subject) => (
+          <Link to={`/attendances?subject=${subject?._id}`} type="primary">
+            {subject?.name}
+          </Link>
+        ),
       },
     ],
   },

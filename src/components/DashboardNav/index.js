@@ -53,7 +53,13 @@ const principalItems = [
     ),
     getItem(
       // FormTrigger
-      <MenuLink to={users.students.api} label="Create" />,
+      <FormTrigger
+        type="link"
+        triggers="createStudent"
+        className="createStudent"
+      >
+        Create
+      </FormTrigger>,
       "createStudent",
       null
     ),
@@ -66,7 +72,13 @@ const principalItems = [
     ),
     getItem(
       // FormTrigger
-      <MenuLink to={users.teachers.api} label="Create" />,
+      <FormTrigger
+        type="link"
+        triggers="createTeacher"
+        className="createTeacher"
+      >
+        Create
+      </FormTrigger>,
       "createTeacher",
       null
     ),
@@ -93,7 +105,7 @@ function getNavItems(role) {
   return item;
 }
 
-export default function DashboardNav({ navItems, defaultOpenKey }) {
+export default function DashboardNav({ navItems = [], defaultOpenKey }) {
   const { auth } = useAuth();
   const { role } = auth;
 
@@ -105,12 +117,12 @@ export default function DashboardNav({ navItems, defaultOpenKey }) {
     <Menu
       onClick={onClick}
       style={{
-        width: 256,
+        width: 150,
       }}
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={[defaultOpenKey]}
       mode="inline"
-      items={navItems?.length || getNavItems(role)}
+      items={navItems.length ? navItems : getNavItems(role)}
     />
   );
 }
