@@ -40,11 +40,6 @@ export const attendancesColumnPrincipal = [
         dataIndex: "teacher",
         render: (teacher) => teacher?.user?.fullName,
       },
-      {
-        title: "Email",
-        dataIndex: "teacher",
-        render: (teacher) => teacher?.user?.email,
-      },
     ],
   },
   {

@@ -188,11 +188,6 @@ export default function Attendance() {
           ...getColumnSearchProps("name"),
         },
         {
-          title: "Email",
-          dataIndex: "student",
-          render: (student) => student?.user?.email,
-        },
-        {
           title: "Batch",
           dataIndex: "student",
           render: (student) => student?.batch,
