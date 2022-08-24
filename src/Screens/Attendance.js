@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Wrapper from "../components/Wrapper";
-import { Button, DatePicker, Space, Table } from "antd";
+import { Button, DatePicker, Input, Space, Table } from "antd";
 import { attendancesColumnPrincipal } from "../constants/tableColumns";
 import DashboardNav, { getItem, MenuLink } from "../components/DashboardNav";
 import {
@@ -10,6 +10,7 @@ import {
 import { Link, useSearchParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Title from "../components/Title";
+import { SearchOutlined } from "@ant-design/icons";
 
 export default function Attendance() {
   const [searchParams] = useSearchParams();
@@ -23,12 +24,16 @@ export default function Attendance() {
   // states
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
   const [navItems, setNavItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
+
+  const searchInput = useRef(null);
 
   useEffect(() => {
     if (!subject || !data.length) {
@@ -89,6 +94,89 @@ export default function Attendance() {
     setFilteredData(filteredData);
   };
 
+  const handleSearch = (searchTerm) => {
+    if (searchTerm === null) {
+      return setFilteredData([]);
+    }
+
+    const filteredData = data.filter((record) =>
+      record.student.user.fullName.toLowerCase().includes(searchTerm)
+    );
+    setFilteredData(filteredData);
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => {
+            handleSearch(selectedKeys[0]);
+            confirm({ closeDropdown: true });
+          }}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => {
+              handleSearch(selectedKeys[0]);
+              confirm({ closeDropdown: true });
+            }}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => {
+              handleSearch(null);
+              clearFilters({ closeDropdown: true });
+            }}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+        }}
+      />
+    ),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+  });
+
   const attendancesColumnCommon = [
     {
       title: "Student",
@@ -97,6 +185,7 @@ export default function Attendance() {
           title: "FullName",
           dataIndex: "student",
           render: (student) => student?.user?.fullName,
+          ...getColumnSearchProps("name"),
         },
         {
           title: "Email",
