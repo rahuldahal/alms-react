@@ -18,3 +18,7 @@
 .mr-2 {
   margin-right: 0.5rem;
 }
+
+.brand-text {
+  color: var(--brand-400) !important;
+}

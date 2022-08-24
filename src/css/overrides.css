@@ -13,3 +13,26 @@
 .ant-input-number {
   width: 100%;
 }
+
+.ant-menu-item {
+  padding: 0 !important;
+  margin-top: 0 !important;
+}
+
+.ant-menu-inline {
+  padding-top: 40px;
+  border-color: var(--brand-500);
+}
+
+.ant-menu-submenu-inline div {
+  padding: 0 !important;
+}
+
+.ant-menu-sub .ant-menu-item {
+  padding-left: 1rem !important;
+}
+
+.ant-menu-sub .ant-menu-item .ant-btn {
+  padding-left: 0 !important;
+  color: black;
+}

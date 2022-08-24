@@ -117,7 +117,7 @@ export default function DashboardNav({ navItems = [], defaultOpenKey }) {
     <Menu
       onClick={onClick}
       style={{
-        width: 256,
+        width: 150,
       }}
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={[defaultOpenKey]}

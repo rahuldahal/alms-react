@@ -188,9 +188,9 @@ export default function Attendance() {
           ...getColumnSearchProps("name"),
         },
         {
-          title: "Batch",
+          title: "Semester",
           dataIndex: "student",
-          render: (student) => student?.batch,
+          render: (student) => student?.semester,
         },
       ],
     },
@@ -270,7 +270,9 @@ export default function Attendance() {
 
       <section>
         {data.length ? (
-          <Title level={2}>Subject: {data[0].subject.name}</Title>
+          <Title level={2} className="brand-text">
+            Subject: {data[0].subject.name}
+          </Title>
         ) : null}
         <Table
           bordered
@@ -288,9 +290,6 @@ export default function Attendance() {
       <DashboardNav navItems={navItems} />
 
       <section>
-        {data.length ? (
-          <Title level={2}>Subject: {data[0].subject.name}</Title>
-        ) : null}
         <Table
           bordered
           columns={[...attendancesColumnCommon, ...attendancesColumnPrincipal]}
