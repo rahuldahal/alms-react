@@ -36,7 +36,7 @@ export const attendancesColumnPrincipal = [
     title: "Teacher",
     children: [
       {
-        title: "FullName",
+        title: "Full Name",
         dataIndex: "teacher",
         render: (teacher) => teacher?.user?.fullName,
       },
@@ -46,7 +46,7 @@ export const attendancesColumnPrincipal = [
     title: "Subject",
     children: [
       {
-        title: "FullName",
+        title: "Full Name",
         dataIndex: "subject",
         render: (subject) => (
           <Link to={`/attendances?subject=${subject?._id}`} type="primary">

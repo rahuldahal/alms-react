@@ -119,6 +119,7 @@ export default function DashboardNav({ navItems = [], defaultOpenKey }) {
       style={{
         width: 150,
       }}
+      className="dashboardNav"
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={[defaultOpenKey]}
       mode="inline"

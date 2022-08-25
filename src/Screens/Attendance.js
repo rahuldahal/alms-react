@@ -182,7 +182,7 @@ export default function Attendance() {
       title: "Student",
       children: [
         {
-          title: "FullName",
+          title: "Full Name",
           dataIndex: "student",
           render: (student) => student?.user?.fullName,
           ...getColumnSearchProps("name"),

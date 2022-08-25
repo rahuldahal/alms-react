@@ -5,9 +5,3 @@
 @import "css/landing.css";
 @import "css/dashbaord.css";
 @import "css/overrides.css";
-
-#root{
-    height: 100vh;
-    overflow-y: hidden;
-    /* background-color: var(--brand-500); */
-}

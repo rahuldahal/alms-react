@@ -1,4 +1,7 @@
 .nav {
+  position: sticky;
+  z-index: 5;
+  top: 0;
   width: 100%;
   background-color: var(--brand-400);
   padding: var(--spacing-500) var(--spacing-600);
