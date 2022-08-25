@@ -5,3 +5,7 @@
 @import "css/landing.css";
 @import "css/dashbaord.css";
 @import "css/overrides.css";
+
+body {
+  font-family: "Roboto", sans-serif;
+}
