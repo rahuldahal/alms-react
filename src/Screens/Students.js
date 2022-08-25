@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "../components/Wrapper";
-import { Table } from "antd";
+import { Button, Table } from "antd";
 import { getAllStudents } from "../services/students";
 import {
   studentsColumnCommon,
   studentsColumnPrincipalAction,
 } from "../constants/tableColumns";
 import DashboardNav from "../components/DashboardNav";
+import { ReloadOutlined } from "@ant-design/icons";
 
 export default function Students() {
   // states
@@ -48,8 +49,16 @@ export default function Students() {
     <Wrapper className="flex dashboard">
       <DashboardNav />
 
-      <section>
+      <section className="flex flex-column items-end">
+        <Button
+          icon={<ReloadOutlined />}
+          className="btn mb-2"
+          onClick={fetchData}
+        >
+          Refresh
+        </Button>
         <Table
+          className="w-100"
           bordered
           columns={[...studentsColumnCommon, ...studentsColumnPrincipalAction]}
           rowKey={(record) => record._id}

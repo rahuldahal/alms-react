@@ -10,7 +10,7 @@ import {
 import { Link, useSearchParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Title from "../components/Title";
-import { SearchOutlined } from "@ant-design/icons";
+import { ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 
 export default function Attendance() {
   const [searchParams] = useSearchParams();
@@ -274,23 +274,41 @@ export default function Attendance() {
             Subject: {data[0].subject.name}
           </Title>
         ) : null}
-        <Table
-          bordered
-          columns={attendancesColumnCommon}
-          rowKey={(record) => record._id}
-          dataSource={filteredData.length ? filteredData : data}
-          pagination={pagination}
-          loading={loading}
-          onChange={handleTableChange}
-        />
+        <div className="flex flex-column items-end">
+          <Button
+            icon={<ReloadOutlined />}
+            className="btn mb-2"
+            onClick={fetchData}
+          >
+            Refresh
+          </Button>
+          <Table
+            className="w-100"
+            bordered
+            columns={attendancesColumnCommon}
+            rowKey={(record) => record._id}
+            dataSource={filteredData.length ? filteredData : data}
+            pagination={pagination}
+            loading={loading}
+            onChange={handleTableChange}
+          />
+        </div>
       </section>
     </Wrapper>
   ) : (
     <Wrapper className="flex dashboard">
       <DashboardNav navItems={navItems} />
 
-      <section>
+      <section className="flex flex-column items-end">
+        <Button
+          icon={<ReloadOutlined />}
+          className="btn mb-2"
+          onClick={fetchData}
+        >
+          Refresh
+        </Button>
         <Table
+          className="w-100"
           bordered
           columns={[...attendancesColumnCommon, ...attendancesColumnPrincipal]}
           rowKey={(record) => record._id}

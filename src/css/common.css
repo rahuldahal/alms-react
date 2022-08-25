@@ -3,6 +3,10 @@
   margin: auto;
 }
 
+.btn {
+  width: max-content;
+}
+
 .flex {
   display: flex;
 }
@@ -11,12 +15,24 @@
   flex-direction: column;
 }
 
+.items-end {
+  align-items: end;
+}
+
 .pl-0 {
   padding-left: 0;
 }
 
 .mr-2 {
   margin-right: 0.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.w-100 {
+  width: 100%;
 }
 
 .brand-text {
