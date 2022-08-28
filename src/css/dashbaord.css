@@ -44,13 +44,28 @@ section table th {
   border-bottom-width: 0;
   border-top-left-radius: 1rem;
   box-shadow: 8px 8px 16px -8px rgba(0, 0, 0, 0.3);
-  transition: box-shadow, transform 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out;
   cursor: pointer;
 }
 
 .course:hover {
-  transform: translateY(-1rem);
   box-shadow: 8px 8px 32px -8px rgba(0, 0, 0, 0.3);
+}
+
+.semesters {
+  justify-content: space-between;
+}
+
+.semester {
+  padding: 0.25rem 0.5rem;
+  background: var(--brand-400);
+  color: white;
+  transition: transform 0.3s ease-in-out;
+}
+
+.semester:hover {
+  color: white !important;
+  transform: translateY(-0.5rem);
 }
 
 .color-red {
