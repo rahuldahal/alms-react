@@ -79,7 +79,7 @@ export default function Courses() {
     <Wrapper className="flex dashboard">
       <DashboardNav />
 
-      <div className="courses flex wrap gap-4 items-center justify-center">
+      <div className="courses flex wrap gap-8 items-center justify-center">
         {courses.map((course) => (
           <Course key={course._id} course={course} />
         ))}

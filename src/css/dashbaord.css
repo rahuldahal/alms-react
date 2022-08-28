@@ -32,7 +32,8 @@ section table th {
 }
 
 .courses {
-  height: 80vh;
+  padding-top: 40px;
+  height: max-content;
 }
 
 .course {
