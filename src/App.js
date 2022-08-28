@@ -13,6 +13,7 @@ import Subjects from "./Screens/Subjects";
 import StudentsOfASubject from "./Screens/StudentsOfASubject";
 import useAuth from "./hooks/useAuth";
 import { getAuthStatus } from "./services/user";
+import Courses from "./Screens/Courses";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -46,11 +47,17 @@ function App() {
 
             {/* Protected Route */}
             <Route
+              element={<PrivateRoutes allowedRoles={["PRINCIPAL", "HOD"]} />}
+            >
+              <Route path="/courses" element={<Courses />} exact />
+            </Route>
+
+            <Route
               element={
                 <PrivateRoutes allowedRoles={["PRINCIPAL", "HOD", "TEACHER"]} />
               }
             >
-              <Route path="/attendances" element={<Attendance />} exact />
+              <Route path="/attendance" element={<Attendance />} exact />
             </Route>
 
             <Route

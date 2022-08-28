@@ -36,3 +36,7 @@
   padding-left: 0 !important;
   color: black;
 }
+
+.ant-card-body {
+  padding-top: 0.25rem !important;
+}

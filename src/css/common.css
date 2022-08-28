@@ -11,12 +11,32 @@
   display: flex;
 }
 
+.wrap {
+  flex-wrap: wrap;
+}
+
 .flex-column {
   flex-direction: column;
 }
 
 .items-end {
   align-items: end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.font-light {
+  font-weight: 300;
 }
 
 .pl-0 {
