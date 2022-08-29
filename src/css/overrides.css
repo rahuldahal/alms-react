@@ -40,3 +40,9 @@
 .ant-card-body {
   padding-top: 0.25rem !important;
 }
+
+.ant-card-head-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+}

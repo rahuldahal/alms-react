@@ -46,7 +46,6 @@ section table th {
   border-top-left-radius: 1rem;
   box-shadow: 8px 8px 16px -8px rgba(0, 0, 0, 0.3);
   transition: box-shadow 0.3s ease-in-out;
-  cursor: pointer;
 }
 
 .course:hover {
@@ -62,6 +61,7 @@ section table th {
   background: var(--brand-400);
   color: white;
   transition: transform 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .semester:hover {
@@ -81,4 +81,8 @@ section table th {
   padding: 0.25rem 0.5rem;
   color: #fcfcfc;
   border-radius: 0.25rem;
+}
+
+.attendanceCTA {
+  display: flex !important;
 }
