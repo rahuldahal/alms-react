@@ -18,10 +18,10 @@ export async function getAllAttendances() {
   }
 }
 
-export async function getAttendancesOfSubject({ subject }) {
+export async function getAttendancesOfSubject({ subject, date }) {
   try {
     const { data } = await axios({
-      url: `${apiBaseURL}/attendances/subjects/${subject}?populate=all`,
+      url: `${apiBaseURL}/attendances/subjects/${subject}?date=${date}&populate=all`,
       method: "get",
       withCredentials: true,
     });

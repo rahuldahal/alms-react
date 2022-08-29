@@ -11,7 +11,7 @@ import { Link, useSearchParams } from "react-router-dom";
 export default function Subjects() {
   const [searchParams] = useSearchParams();
   const { auth } = useAuth();
-  const { userId } = auth;
+  const { userId, teacherId } = auth;
 
   const course = searchParams.get("course");
   const semester = searchParams.get("semester");
@@ -26,9 +26,16 @@ export default function Subjects() {
 
   const fetchData = async (params = {}) => {
     setLoading(true);
-    const { subjects } = await getSubjectsOfCourse({ course, semester });
 
-    setSubjects(subjects);
+    if (userId && teacherId) {
+      const { teacher } = await getTeacherByUserId({ userId });
+      const { subjects } = teacher;
+      setSubjects(subjects);
+    } else {
+      const { subjects } = await getSubjectsOfCourse({ course, semester });
+      setSubjects(subjects);
+    }
+
     setLoading(false);
     setPagination({
       ...params.pagination,
@@ -60,7 +67,7 @@ export default function Subjects() {
             View Attendance
           </Link>
           <Link
-            to={`/subjects/students?course=${course}&semester=${semester}`}
+            to={`/subjects/students?course=${course._id}&semester=${semester}`}
             state={{ data: { subjectName: name, subjectId: _id } }}
             type="primary"
             className="ant-btn ant-btn-outlined"

@@ -69,7 +69,7 @@ export default function CreateAttendanceForm({
       teacher,
       student,
       isPresent: !!isPresent,
-      date: new Date(date).toISOString(),
+      date: new Date(date).toISOString().split("T")[0],
     });
     console.log(status);
 

@@ -51,9 +51,10 @@ export default function Attendance() {
 
   const fetchData = async (params = {}) => {
     setLoading(true);
-    const { attendances, total } = subject
-      ? await getAttendancesOfSubject({ subject })
-      : await getAllAttendances();
+    const { attendances, total } = await getAttendancesOfSubject({
+      subject,
+      date: "",
+    });
 
     setData(attendances);
     setLoading(false);

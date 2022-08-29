@@ -57,7 +57,7 @@ function App() {
                 <PrivateRoutes allowedRoles={["PRINCIPAL", "HOD", "TEACHER"]} />
               }
             >
-              <Route path="/attendance" element={<Attendance />} exact />
+              <Route path="/attendances" element={<Attendance />} exact />
             </Route>
 
             <Route

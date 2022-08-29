@@ -97,7 +97,7 @@ export default function StudentsOfASubject() {
       teacher: teacherId,
       student,
       isPresent,
-      date: new Date().toISOString(),
+      date: new Date().toISOString().split("T")[0],
     });
 
     setDisabledButtons((previousState) => ({
