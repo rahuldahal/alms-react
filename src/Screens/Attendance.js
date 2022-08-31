@@ -48,11 +48,11 @@ export default function Attendance() {
     ]);
   }, [attendance]);
 
-  const fetchData = async (params = {}) => {
+  const fetchData = async (date = "2022-08-29", params = {}) => {
     setLoading(true);
     const { attendances, total } = await getAttendancesOfSubject({
       subject,
-      date: "2022-08-29", // TODO: change this to empty string before comitting
+      date, // TODO: change this to empty string before comitting
     });
 
     setAttendance(attendances);
@@ -78,20 +78,8 @@ export default function Attendance() {
     });
   };
 
-  const handleDateFilter = (date) => {
-    if (date === null) {
-      return setFilteredData([]);
-    }
-
-    const filteredData = attendance.filter((record) => {
-      const recordDate = record.date.split("T")[0];
-      const valueOfDate = new Date(date).valueOf();
-      const valueOfRecord = new Date(recordDate).valueOf();
-
-      return valueOfDate === valueOfRecord;
-    });
-
-    setFilteredData(filteredData);
+  const handleDateFilter = (_, dateString) => {
+    fetchData(dateString);
   };
 
   const handleSearch = (searchTerm) => {
@@ -275,13 +263,7 @@ export default function Attendance() {
           </Title>
         ) : null}
         <div className="flex flex-column items-end">
-          <Button
-            icon={<ReloadOutlined />}
-            className="btn mb-2"
-            onClick={fetchData}
-          >
-            Refresh
-          </Button>
+          <DatePicker className="mb-2" onChange={handleDateFilter} />
           <Table
             className="w-100"
             bordered
@@ -300,13 +282,7 @@ export default function Attendance() {
       <DashboardNav navItems={navItems} />
 
       <section className="flex flex-column items-end">
-        <Button
-          icon={<ReloadOutlined />}
-          className="btn mb-2"
-          onClick={fetchData}
-        >
-          Refresh
-        </Button>
+        <DatePicker className="mb-2" onChange={handleDateFilter} />
         <Table
           className="w-100"
           bordered
