@@ -1,16 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import Wrapper from "../components/Wrapper";
-import { Button, DatePicker, Input, Space, Table } from "antd";
-import { attendancesColumnPrincipal } from "../constants/tableColumns";
-import DashboardNav, { getItem, MenuLink } from "../components/DashboardNav";
-import {
-  getAllAttendances,
-  getAttendancesOfSubject,
-} from "../services/attendances";
-import { Link, useSearchParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Title from "../components/Title";
+import Wrapper from "../components/Wrapper";
+import { useSearchParams } from "react-router-dom";
+import useAttendance from "../hooks/useAttendance";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, DatePicker, Input, Space, Table } from "antd";
+import { getAttendancesOfSubject } from "../services/attendances";
 import { ReloadOutlined, SearchOutlined } from "@ant-design/icons";
+import { attendancesColumnPrincipal } from "../constants/tableColumns";
+import DashboardNav, { getItem, MenuLink } from "../components/DashboardNav";
 
 export default function Attendance() {
   const [searchParams] = useSearchParams();
@@ -19,10 +17,11 @@ export default function Attendance() {
   const { auth } = useAuth();
   const { role } = auth;
 
+  const { attendance, setAttendance } = useAttendance();
+
   const isTeacher = role === "TEACHER";
 
   // states
-  const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -36,7 +35,7 @@ export default function Attendance() {
   const searchInput = useRef(null);
 
   useEffect(() => {
-    if (!subject || !data.length) {
+    if (!subject || !attendance.length) {
       return;
     }
 
@@ -47,16 +46,16 @@ export default function Attendance() {
         null
       ),
     ]);
-  }, [data]);
+  }, [attendance]);
 
   const fetchData = async (params = {}) => {
     setLoading(true);
     const { attendances, total } = await getAttendancesOfSubject({
       subject,
-      date: "",
+      date: "2022-08-29", // TODO: change this to empty string before comitting
     });
 
-    setData(attendances);
+    setAttendance(attendances);
     setLoading(false);
     setPagination({
       ...params.pagination,
@@ -84,7 +83,7 @@ export default function Attendance() {
       return setFilteredData([]);
     }
 
-    const filteredData = data.filter((record) => {
+    const filteredData = attendance.filter((record) => {
       const recordDate = record.date.split("T")[0];
       const valueOfDate = new Date(date).valueOf();
       const valueOfRecord = new Date(recordDate).valueOf();
@@ -100,7 +99,7 @@ export default function Attendance() {
       return setFilteredData([]);
     }
 
-    const filteredData = data.filter((record) =>
+    const filteredData = attendance.filter((record) =>
       record.student.user.fullName.toLowerCase().includes(searchTerm)
     );
     setFilteredData(filteredData);
@@ -267,12 +266,12 @@ export default function Attendance() {
 
   return subject ? (
     <Wrapper className="flex dashboard">
-      <DashboardNav navItems={navItems} />
+      <DashboardNav />
 
       <section>
-        {data.length ? (
+        {attendance.length ? (
           <Title level={2} className="brand-text">
-            Subject: {data[0].subject.name}
+            Subject: {attendance[0].subject.name}
           </Title>
         ) : null}
         <div className="flex flex-column items-end">
@@ -288,7 +287,7 @@ export default function Attendance() {
             bordered
             columns={attendancesColumnCommon}
             rowKey={(record) => record._id}
-            dataSource={filteredData.length ? filteredData : data}
+            dataSource={filteredData.length ? filteredData : attendance}
             pagination={pagination}
             loading={loading}
             onChange={handleTableChange}
@@ -313,7 +312,7 @@ export default function Attendance() {
           bordered
           columns={[...attendancesColumnCommon, ...attendancesColumnPrincipal]}
           rowKey={(record) => record._id}
-          dataSource={filteredData.length ? filteredData : data}
+          dataSource={filteredData.length ? filteredData : attendance}
           pagination={pagination}
           loading={loading}
           onChange={handleTableChange}
