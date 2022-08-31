@@ -2,7 +2,6 @@ import useAuth from "../hooks/useAuth";
 import Title from "../components/Title";
 import Wrapper from "../components/Wrapper";
 import { useSearchParams } from "react-router-dom";
-import useAttendance from "../hooks/useAttendance";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, DatePicker, Input, Space, Table } from "antd";
 import { getAttendancesOfSubject } from "../services/attendances";
@@ -14,6 +13,7 @@ import DashboardNav, {
   principalItems,
 } from "../components/DashboardNav";
 import FormTrigger from "../components/FormTrigger";
+import useData from "../hooks/useData";
 
 export default function Attendance() {
   const [searchParams] = useSearchParams();
@@ -22,7 +22,7 @@ export default function Attendance() {
   const { auth } = useAuth();
   const { role } = auth;
 
-  const { attendance, setAttendance } = useAttendance();
+  const { data, setData } = useData();
 
   const isTeacher = role === "TEACHER";
 
@@ -57,7 +57,7 @@ export default function Attendance() {
       ]),
       ...principalItems,
     ]);
-  }, [attendance]);
+  }, [data.attendances]);
 
   const fetchData = async (date = "2022-08-29", params = {}) => {
     setLoading(true);
@@ -66,7 +66,7 @@ export default function Attendance() {
       date, // TODO: change this to empty string before comitting
     });
 
-    setAttendance(attendances);
+    setData((previousState) => ({ ...previousState, attendances }));
     setLoading(false);
     setPagination({
       ...params.pagination,
@@ -98,7 +98,7 @@ export default function Attendance() {
       return setFilteredData([]);
     }
 
-    const filteredData = attendance.filter((record) =>
+    const filteredData = data.attendances.filter((record) =>
       record.student.user.fullName.toLowerCase().includes(searchTerm)
     );
     setFilteredData(filteredData);
@@ -268,9 +268,9 @@ export default function Attendance() {
       <DashboardNav navItems={navItems} />
 
       <section>
-        {attendance.length ? (
+        {data.attendances?.length ? (
           <Title level={2} className="brand-text">
-            Subject: {attendance[0].subject.name}
+            Subject: {data.attendances[0].subject.name}
           </Title>
         ) : null}
         <div className="flex flex-column items-end">
@@ -280,7 +280,7 @@ export default function Attendance() {
             bordered
             columns={attendancesColumnCommon}
             rowKey={(record) => record._id}
-            dataSource={filteredData.length ? filteredData : attendance}
+            dataSource={filteredData.length ? filteredData : data.attendances}
             pagination={pagination}
             loading={loading}
             onChange={handleTableChange}

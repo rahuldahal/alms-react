@@ -4,18 +4,18 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./context/AuthProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AttendanceProvider } from "./context/AttendanceProvider";
+import { DataProvider } from "./context/DataProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <AttendanceProvider>
+        <DataProvider>
           <Routes>
             <Route path="/*" element={<App />} />
           </Routes>
-        </AttendanceProvider>
+        </DataProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
