@@ -8,7 +8,12 @@ import { Button, DatePicker, Input, Space, Table } from "antd";
 import { getAttendancesOfSubject } from "../services/attendances";
 import { ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import { attendancesColumnPrincipal } from "../constants/tableColumns";
-import DashboardNav, { getItem, MenuLink } from "../components/DashboardNav";
+import DashboardNav, {
+  getItem,
+  MenuLink,
+  principalItems,
+} from "../components/DashboardNav";
+import FormTrigger from "../components/FormTrigger";
 
 export default function Attendance() {
   const [searchParams] = useSearchParams();
@@ -35,16 +40,22 @@ export default function Attendance() {
   const searchInput = useRef(null);
 
   useEffect(() => {
-    if (!subject || !attendance.length) {
-      return;
-    }
-
     setNavItems([
-      getItem(
-        <MenuLink to={`/subjects`} label="View Subjects" />,
-        "viewSubjects",
-        null
-      ),
+      getItem("Attendance", "attendance", null, [
+        getItem(
+          // FormTrigger
+          <FormTrigger
+            type="link"
+            triggers="createAttendance"
+            className="createAttendance"
+          >
+            Create
+          </FormTrigger>,
+          "createAttendance",
+          null
+        ),
+      ]),
+      ...principalItems,
     ]);
   }, [attendance]);
 
@@ -252,9 +263,9 @@ export default function Attendance() {
     },
   ];
 
-  return subject ? (
+  return (
     <Wrapper className="flex dashboard">
-      <DashboardNav />
+      <DashboardNav navItems={navItems} />
 
       <section>
         {attendance.length ? (
@@ -275,24 +286,6 @@ export default function Attendance() {
             onChange={handleTableChange}
           />
         </div>
-      </section>
-    </Wrapper>
-  ) : (
-    <Wrapper className="flex dashboard">
-      <DashboardNav navItems={navItems} />
-
-      <section className="flex flex-column items-end">
-        <DatePicker className="mb-2" onChange={handleDateFilter} />
-        <Table
-          className="w-100"
-          bordered
-          columns={[...attendancesColumnCommon, ...attendancesColumnPrincipal]}
-          rowKey={(record) => record._id}
-          dataSource={filteredData.length ? filteredData : attendance}
-          pagination={pagination}
-          loading={loading}
-          onChange={handleTableChange}
-        />
       </section>
     </Wrapper>
   );

@@ -25,26 +25,7 @@ export function MenuLink({ to, label }) {
 
 // TODO: keep these "items" into constants/
 
-const principalItems = [
-  getItem("Attendance", "attendance", null, [
-    getItem(
-      <MenuLink to={ATTENDANCES_BASE} label="All" />,
-      "allAttendances",
-      null
-    ),
-    getItem(
-      // FormTrigger
-      <FormTrigger
-        type="link"
-        triggers="createAttendance"
-        className="createAttendance"
-      >
-        Create
-      </FormTrigger>,
-      "createAttendance",
-      null
-    ),
-  ]),
+export const principalItems = [
   getItem("Students", "students", null, [
     getItem(
       <MenuLink to={users.students.ui} label="All" />,
