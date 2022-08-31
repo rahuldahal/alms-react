@@ -58,22 +58,24 @@ export default function Subjects() {
           <em>{code}</em>
         </div>
 
-        <Space className="mt-2 attendanceCTA">
+        <Space className="w-100 mt-2 attendanceCTA">
           <Link
             to={`/attendances?subject=${_id}`}
             type="primary"
-            className="ant-btn ant-btn-primary"
+            className="w-100 ant-btn ant-btn-primary"
           >
             View Attendance
           </Link>
-          <Link
-            to={`/subjects/students?course=${course._id}&semester=${semester}`}
-            state={{ data: { subjectName: name, subjectId: _id } }}
-            type="primary"
-            className="ant-btn ant-btn-outlined"
-          >
-            Create Attendance
-          </Link>
+          {teacherId ? (
+            <Link
+              to={`/subjects/students?course=${course._id}&semester=${semester}`}
+              state={{ data: { subjectName: name, subjectId: _id } }}
+              type="primary"
+              className="ant-btn ant-btn-outlined"
+            >
+              Create Attendance
+            </Link>
+          ) : null}
         </Space>
       </Card>
     );

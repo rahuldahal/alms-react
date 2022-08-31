@@ -46,3 +46,7 @@ form .ant-picker {
   font-weight: 600;
   padding: 0.5rem 0;
 }
+
+.ant-space-item {
+  width: 100%;
+}
