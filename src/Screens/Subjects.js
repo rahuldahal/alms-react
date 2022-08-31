@@ -5,6 +5,7 @@ import { subjectsColumn } from "../constants/tableColumns";
 import DashboardNav from "../components/DashboardNav";
 import { getTeacherByUserId } from "../services/teachers";
 import useAuth from "../hooks/useAuth";
+import useData from "../hooks/useData";
 import { getSubjectsOfCourse } from "../services/subjects";
 import { Link, useSearchParams } from "react-router-dom";
 
@@ -24,6 +25,8 @@ export default function Subjects() {
     pageSize: 10,
   });
 
+  const { setData } = useData();
+
   const fetchData = async (params = {}) => {
     setLoading(true);
 
@@ -31,6 +34,7 @@ export default function Subjects() {
       const { teacher } = await getTeacherByUserId({ userId });
       const { subjects } = teacher;
       setSubjects(subjects);
+      setData((previousState) => ({ ...previousState, subjects }));
     } else {
       const { subjects } = await getSubjectsOfCourse({ course, semester });
       setSubjects(subjects);

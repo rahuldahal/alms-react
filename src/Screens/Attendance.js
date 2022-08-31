@@ -1,7 +1,7 @@
 import useAuth from "../hooks/useAuth";
 import Title from "../components/Title";
 import Wrapper from "../components/Wrapper";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, DatePicker, Input, Space, Table } from "antd";
 import { getAttendancesOfSubject } from "../services/attendances";
@@ -40,6 +40,34 @@ export default function Attendance() {
   const searchInput = useRef(null);
 
   useEffect(() => {
+    if (isTeacher) {
+      const teacherNavItems = data.subjects.map(
+        ({ _id, name: subjectName, course, semester }) =>
+          getItem(subjectName, subjectName, null, [
+            getItem(
+              <Link to={`/attendances?subject=${_id}`} type="primary">
+                View Attendance
+              </Link>,
+              "viewAttendance",
+              null
+            ),
+            getItem(
+              <Link
+                to={`/subjects/students?course=${course._id}&semester=${semester}`}
+                state={{ data: { subjectName, subjectId: _id } }}
+                type="primary"
+              >
+                Create Attendance
+              </Link>,
+              "createAttendance",
+              null
+            ),
+          ])
+      );
+
+      return setNavItems(teacherNavItems);
+    }
+
     setNavItems([
       getItem("Attendance", "attendance", null, [
         getItem(
