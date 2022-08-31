@@ -6,14 +6,37 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, DatePicker, Input, Space, Table } from "antd";
 import { getAttendancesOfSubject } from "../services/attendances";
 import { ReloadOutlined, SearchOutlined } from "@ant-design/icons";
-import { attendancesColumnPrincipal } from "../constants/tableColumns";
 import DashboardNav, {
   getItem,
-  MenuLink,
   principalItems,
 } from "../components/DashboardNav";
 import FormTrigger from "../components/FormTrigger";
 import useData from "../hooks/useData";
+
+export function getTeacherDashboardNav(subjects) {
+  return subjects.map(({ _id, name: subjectName, course, semester }) =>
+    getItem(subjectName, subjectName, null, [
+      getItem(
+        <Link to={`/attendances?subject=${_id}`} type="primary">
+          View Attendance
+        </Link>,
+        "viewAttendance",
+        null
+      ),
+      getItem(
+        <Link
+          to={`/subjects/students?course=${course._id}&semester=${semester}`}
+          state={{ data: { subjectName, subjectId: _id } }}
+          type="primary"
+        >
+          Create Attendance
+        </Link>,
+        "createAttendance",
+        null
+      ),
+    ])
+  );
+}
 
 export default function Attendance() {
   const [searchParams] = useSearchParams();
@@ -41,29 +64,7 @@ export default function Attendance() {
 
   useEffect(() => {
     if (isTeacher) {
-      const teacherNavItems = data.subjects.map(
-        ({ _id, name: subjectName, course, semester }) =>
-          getItem(subjectName, subjectName, null, [
-            getItem(
-              <Link to={`/attendances?subject=${_id}`} type="primary">
-                View Attendance
-              </Link>,
-              "viewAttendance",
-              null
-            ),
-            getItem(
-              <Link
-                to={`/subjects/students?course=${course._id}&semester=${semester}`}
-                state={{ data: { subjectName, subjectId: _id } }}
-                type="primary"
-              >
-                Create Attendance
-              </Link>,
-              "createAttendance",
-              null
-            ),
-          ])
-      );
+      const teacherNavItems = getTeacherDashboardNav(data.subjects);
 
       return setNavItems(teacherNavItems);
     }
