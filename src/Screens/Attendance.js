@@ -104,19 +104,8 @@ export default function Attendance() {
   };
 
   useEffect(() => {
-    fetchData({
-      pagination,
-    });
+    fetchData(new Date().toISOString().split("T")[0]);
   }, []);
-
-  const handleTableChange = (newPagination, filters, sorter) => {
-    fetchData({
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      pagination: newPagination,
-      ...filters,
-    });
-  };
 
   const handleDateFilter = (_, dateString) => {
     fetchData(dateString);
@@ -312,7 +301,6 @@ export default function Attendance() {
             dataSource={filteredData.length ? filteredData : data.attendances}
             pagination={pagination}
             loading={loading}
-            onChange={handleTableChange}
           />
         </div>
       </section>
