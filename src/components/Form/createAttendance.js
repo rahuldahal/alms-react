@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Checkbox, DatePicker, Form, Modal, Select } from "antd";
-import { signIn } from "../../services/user";
-import { getAllSubjects } from "../../services/subjects";
-import { getAllTeachers } from "../../services/teachers";
-import { getAllStudents } from "../../services/students";
+import { Checkbox, DatePicker, Form, Input, Modal, Select } from "antd";
+import { getStudentsByCourseAndSemester } from "../../services/students";
 import { createAttendance } from "../../services/attendances";
+import useData from "../../hooks/useData";
+import { getTeacherBySubjectId } from "../../services/teachers";
 
 const { Option } = Select;
 
@@ -16,19 +15,16 @@ export default function CreateAttendanceForm({
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
 
-  const [subjectPlaceholder, setSubjectPlaceholder] = useState(
-    "Loading Subjects..."
-  );
   const [studentPlaceholder, setStudentPlaceholder] = useState(
     "Loading Students..."
   );
-  const [teacherPlaceholder, setTeacherPlaceholder] = useState(
-    "Loading Teachers..."
-  );
+  const [teacherPlaceholder, setTeacherPlaceholder] =
+    useState("Loading Teacher...");
 
-  const [subjects, setSubjects] = useState([]);
+  const { data } = useData();
+
   const [students, setStudents] = useState([]);
-  const [teachers, setTeachers] = useState([]);
+  const [teacher, setTeacher] = useState(null);
 
   useEffect(() => {
     if (!visible) {
@@ -39,26 +35,25 @@ export default function CreateAttendanceForm({
 
   useEffect(
     () => async () => {
-      const { subjects } = await getAllSubjects();
-      const { teachers } = await getAllTeachers();
-      const { students } = await getAllStudents();
+      const { course, semester } = data;
+      const { students } = await getStudentsByCourseAndSemester({
+        course,
+        semester,
+      });
 
-      setSubjects(subjects);
-      setTeachers(teachers);
       setStudents(students);
     },
     []
   );
 
   useEffect(() => {
-    if (!subjects.length || !teachers.length || !students.length) {
+    if (!students.length || !teacher) {
       return;
     }
 
-    setSubjectPlaceholder("Choose the Subject");
     setTeacherPlaceholder("Choose the Teacher");
     setStudentPlaceholder("Choose the Student");
-  }, [subjects]);
+  }, [teacher, students]);
 
   const handleAttendanceCreation = async (values) => {
     const { subject, teacher, student, isPresent, date } = values;
@@ -80,6 +75,7 @@ export default function CreateAttendanceForm({
     setConfirmLoading(true);
     try {
       const values = await form.validateFields();
+      return console.log(values);
       const date = new Date(values.date).toISOString();
       const isPresent = !!values.isPresent;
       console.log({ date, isPresent });
@@ -89,6 +85,14 @@ export default function CreateAttendanceForm({
     } catch (e) {
       console.error(e);
     }
+  };
+
+  useEffect(() => console.log(teacher), [teacher]);
+
+  const handleSubjectChange = async (subjectId) => {
+    const { teacher } = await getTeacherBySubjectId({ subjectId });
+    const { _id, user } = teacher;
+    setTeacher({ _id, user });
   };
 
   return (
@@ -112,8 +116,8 @@ export default function CreateAttendanceForm({
             },
           ]}
         >
-          <Select placeholder={subjectPlaceholder}>
-            {subjects.map((subject) => (
+          <Select placeholder="Select a subject" onChange={handleSubjectChange}>
+            {data.subjects?.map((subject) => (
               <Option key={`${subject._id}`} value={subject._id}>
                 {subject.name}
               </Option>
@@ -122,7 +126,7 @@ export default function CreateAttendanceForm({
         </Form.Item>
 
         <Form.Item
-          label="Teacher"
+          label={teacher ? `Teacher(${teacher.user?.fullName})` : "Teacher"}
           name="teacher"
           rules={[
             {
@@ -131,13 +135,7 @@ export default function CreateAttendanceForm({
             },
           ]}
         >
-          <Select placeholder={teacherPlaceholder}>
-            {teachers.map((teacher) => (
-              <Option key={`${teacher._id}`} value={teacher._id}>
-                {teacher.user.fullName}
-              </Option>
-            ))}
-          </Select>
+          <Input placeholder={teacherPlaceholder} value={teacher._id} />
         </Form.Item>
 
         <Form.Item

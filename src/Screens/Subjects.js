@@ -38,6 +38,12 @@ export default function Subjects() {
     } else {
       const { subjects } = await getSubjectsOfCourse({ course, semester });
       setSubjects(subjects);
+      setData((previousState) => ({
+        ...previousState,
+        subjects,
+        course,
+        semester,
+      }));
     }
 
     setLoading(false);
