@@ -14,7 +14,7 @@ import FormTrigger from "../components/FormTrigger";
 import useData from "../hooks/useData";
 
 export function getTeacherDashboardNav(subjects) {
-  return subjects.map(({ _id, name: subjectName, course, semester }) =>
+  return subjects?.map(({ _id, name: subjectName, course, semester }) =>
     getItem(subjectName, subjectName, null, [
       getItem(
         <Link to={`/attendances?subject=${_id}`} type="primary">

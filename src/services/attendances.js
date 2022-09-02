@@ -19,6 +19,7 @@ export async function getAllAttendances() {
 }
 
 export async function getAttendancesOfSubject({ subject, date }) {
+  date = date || new Date().toISOString().split("T")[0];
   try {
     const { data } = await axios({
       url: `${apiBaseURL}/attendances/subjects/${subject}?date=${date}&populate=all`,

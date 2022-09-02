@@ -3,7 +3,10 @@ import Wrapper from "../components/Wrapper";
 import { Button, Space, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import DashboardNav from "../components/DashboardNav";
-import { createAttendance } from "../services/attendances";
+import {
+  createAttendance,
+  getAttendancesOfSubject,
+} from "../services/attendances";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { studentsColumnCommon } from "../constants/tableColumns";
 import { getStudentsByCourseAndSemester } from "../services/students";
@@ -28,6 +31,7 @@ export default function StudentsOfASubject() {
 
   // states
   const [data, setData] = useState();
+  const [studentsWithAttendance, setStudentsWithAttendance] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
@@ -68,8 +72,14 @@ export default function StudentsOfASubject() {
       course,
       semester,
     });
+    const { attendances, total: totalAttendances } =
+      await getAttendancesOfSubject({ subject: subjectId });
+    const studentIdsWithAttendance = attendances.map(
+      (attendances) => attendances.student._id
+    );
 
     setData(students);
+    setStudentsWithAttendance(studentIdsWithAttendance); // TODO: use these ids to identify students whose attendance is already taken
     setLoading(false);
     setPagination({
       ...params.pagination,
