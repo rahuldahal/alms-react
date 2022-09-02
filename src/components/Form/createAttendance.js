@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Checkbox, DatePicker, Form, Input, Modal, Select } from "antd";
 import { getStudentsByCourseAndSemester } from "../../services/students";
 import { createAttendance } from "../../services/attendances";
@@ -25,6 +25,7 @@ export default function CreateAttendanceForm({
 
   const [students, setStudents] = useState([]);
   const [teacher, setTeacher] = useState(null);
+  const teacherRef = useRef();
 
   useEffect(() => {
     if (!visible) {
@@ -75,7 +76,6 @@ export default function CreateAttendanceForm({
     setConfirmLoading(true);
     try {
       const values = await form.validateFields();
-      return console.log(values);
       const date = new Date(values.date).toISOString();
       const isPresent = !!values.isPresent;
       console.log({ date, isPresent });
@@ -86,8 +86,6 @@ export default function CreateAttendanceForm({
       console.error(e);
     }
   };
-
-  useEffect(() => console.log(teacher), [teacher]);
 
   const handleSubjectChange = async (subjectId) => {
     const { teacher } = await getTeacherBySubjectId({ subjectId });
@@ -126,7 +124,7 @@ export default function CreateAttendanceForm({
         </Form.Item>
 
         <Form.Item
-          label={teacher ? `Teacher(${teacher.user?.fullName})` : "Teacher"}
+          label="Teacher"
           name="teacher"
           rules={[
             {
@@ -135,7 +133,9 @@ export default function CreateAttendanceForm({
             },
           ]}
         >
-          <Input placeholder={teacherPlaceholder} value={teacher._id} />
+          <Select placeholder={teacherPlaceholder}>
+            <Option value={teacher?._id}>{teacher?.user?.fullName}</Option>
+          </Select>
         </Form.Item>
 
         <Form.Item
