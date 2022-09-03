@@ -6,7 +6,7 @@
   color: #1890ff;
 }
 
-.ant-picker {
+form .ant-picker {
   width: 100% !important;
 }
 
@@ -35,4 +35,18 @@
 .ant-menu-sub .ant-menu-item .ant-btn {
   padding-left: 0 !important;
   color: black;
+}
+
+.ant-card-body {
+  padding-top: 0.25rem !important;
+}
+
+.ant-card-head-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+}
+
+.ant-space-item {
+  width: 100%;
 }

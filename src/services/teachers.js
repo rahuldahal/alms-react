@@ -32,3 +32,18 @@ export async function getTeacherByUserId({ userId }) {
     return e;
   }
 }
+
+export async function getTeacherBySubjectId({ subjectId }) {
+  try {
+    const { data } = await axios({
+      url: `${apiBaseURL}/teachers/subjects/${subjectId}`,
+      method: "get",
+      withCredentials: true,
+    });
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}

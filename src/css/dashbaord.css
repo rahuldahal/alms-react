@@ -31,6 +31,44 @@ section table th {
   text-align: center !important;
 }
 
+.courses {
+  padding-top: 40px;
+  height: max-content;
+}
+
+.course {
+  min-width: 200px;
+  width: max-content !important;
+  background-color: azure;
+  border: 2px solid var(--brand-400);
+  border-right-width: 0;
+  border-bottom-width: 0;
+  border-top-left-radius: 1rem;
+  box-shadow: 8px 8px 16px -8px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.course:hover {
+  box-shadow: 8px 8px 32px -8px rgba(0, 0, 0, 0.3);
+}
+
+.semesters {
+  justify-content: space-between;
+}
+
+.semester {
+  padding: 0.25rem 0.5rem;
+  background: var(--brand-400);
+  color: white;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.semester:hover {
+  color: white !important;
+  transform: translateY(-0.25rem);
+}
+
 .color-red {
   background: #ff4d4f;
   padding: 0.25rem 0.5rem;
@@ -43,4 +81,8 @@ section table th {
   padding: 0.25rem 0.5rem;
   color: #fcfcfc;
   border-radius: 0.25rem;
+}
+
+.attendanceCTA {
+  display: flex !important;
 }

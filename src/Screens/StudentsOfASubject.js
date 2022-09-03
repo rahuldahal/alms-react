@@ -3,10 +3,15 @@ import Wrapper from "../components/Wrapper";
 import { Button, Space, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import DashboardNav from "../components/DashboardNav";
-import { createAttendance } from "../services/attendances";
+import {
+  createAttendance,
+  getAttendancesOfSubject,
+} from "../services/attendances";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { studentsColumnCommon } from "../constants/tableColumns";
 import { getStudentsByCourseAndSemester } from "../services/students";
+import { getTeacherDashboardNav } from "./Attendance";
+import useData from "../hooks/useData";
 
 export default function StudentsOfASubject() {
   const [searchParams] = useSearchParams();
@@ -20,15 +25,19 @@ export default function StudentsOfASubject() {
   const course = searchParams.get("course");
   const semester = searchParams.get("semester");
 
+  const { data: dataContext } = useData();
+
   const { teacherId } = auth;
 
   // states
   const [data, setData] = useState();
+  const [studentsWithAttendance, setStudentsWithAttendance] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
+  const [navItems, setNavItems] = useState([]);
 
   const [disabledButtons, setDisabledButtons] = useState({});
 
@@ -63,8 +72,14 @@ export default function StudentsOfASubject() {
       course,
       semester,
     });
+    const { attendances, total: totalAttendances } =
+      await getAttendancesOfSubject({ subject: subjectId });
+    const studentIdsWithAttendance = attendances.map(
+      (attendances) => attendances.student._id
+    );
 
     setData(students);
+    setStudentsWithAttendance(studentIdsWithAttendance); // TODO: use these ids to identify students whose attendance is already taken
     setLoading(false);
     setPagination({
       ...params.pagination,
@@ -76,6 +91,11 @@ export default function StudentsOfASubject() {
     fetchData({
       pagination,
     });
+  }, []);
+
+  useEffect(() => {
+    const teacherNavItems = getTeacherDashboardNav(dataContext.subjects);
+    setNavItems(teacherNavItems);
   }, []);
 
   useEffect(() => {
@@ -97,7 +117,7 @@ export default function StudentsOfASubject() {
       teacher: teacherId,
       student,
       isPresent,
-      date: new Date().toISOString(),
+      date: new Date().toISOString().split("T")[0],
     });
 
     setDisabledButtons((previousState) => ({
@@ -108,7 +128,7 @@ export default function StudentsOfASubject() {
 
   return (
     <Wrapper className="flex dashboard">
-      <DashboardNav />
+      <DashboardNav navItems={navItems} />
 
       <section>
         <Table

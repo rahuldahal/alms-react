@@ -1,16 +1,42 @@
-import React, { useEffect, useRef, useState } from "react";
-import Wrapper from "../components/Wrapper";
-import { Button, DatePicker, Input, Space, Table } from "antd";
-import { attendancesColumnPrincipal } from "../constants/tableColumns";
-import DashboardNav, { getItem, MenuLink } from "../components/DashboardNav";
-import {
-  getAllAttendances,
-  getAttendancesOfSubject,
-} from "../services/attendances";
-import { Link, useSearchParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Title from "../components/Title";
+import Wrapper from "../components/Wrapper";
+import { Link, useSearchParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, DatePicker, Input, Space, Table } from "antd";
+import { getAttendancesOfSubject } from "../services/attendances";
 import { ReloadOutlined, SearchOutlined } from "@ant-design/icons";
+import DashboardNav, {
+  getItem,
+  principalItems,
+} from "../components/DashboardNav";
+import FormTrigger from "../components/FormTrigger";
+import useData from "../hooks/useData";
+
+export function getTeacherDashboardNav(subjects) {
+  return subjects?.map(({ _id, name: subjectName, course, semester }) =>
+    getItem(subjectName, subjectName, null, [
+      getItem(
+        <Link to={`/attendances?subject=${_id}`} type="primary">
+          View Attendance
+        </Link>,
+        "viewAttendance",
+        null
+      ),
+      getItem(
+        <Link
+          to={`/subjects/students?course=${course._id}&semester=${semester}`}
+          state={{ data: { subjectName, subjectId: _id } }}
+          type="primary"
+        >
+          Create Attendance
+        </Link>,
+        "createAttendance",
+        null
+      ),
+    ])
+  );
+}
 
 export default function Attendance() {
   const [searchParams] = useSearchParams();
@@ -19,10 +45,11 @@ export default function Attendance() {
   const { auth } = useAuth();
   const { role } = auth;
 
+  const { data, setData } = useData();
+
   const isTeacher = role === "TEACHER";
 
   // states
-  const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -36,26 +63,39 @@ export default function Attendance() {
   const searchInput = useRef(null);
 
   useEffect(() => {
-    if (!subject || !data.length) {
-      return;
+    if (isTeacher) {
+      const teacherNavItems = getTeacherDashboardNav(data.subjects);
+
+      return setNavItems(teacherNavItems);
     }
 
     setNavItems([
-      getItem(
-        <MenuLink to={`/subjects`} label="View Subjects" />,
-        "viewSubjects",
-        null
-      ),
+      getItem("Attendance", "attendance", null, [
+        getItem(
+          // FormTrigger
+          <FormTrigger
+            type="link"
+            triggers="createAttendance"
+            className="createAttendance"
+          >
+            Create
+          </FormTrigger>,
+          "createAttendance",
+          null
+        ),
+      ]),
+      ...principalItems,
     ]);
-  }, [data]);
+  }, [data.attendances]);
 
-  const fetchData = async (params = {}) => {
+  const fetchData = async (date = "2022-08-29", params = {}) => {
     setLoading(true);
-    const { attendances, total } = subject
-      ? await getAttendancesOfSubject({ subject })
-      : await getAllAttendances();
+    const { attendances, total } = await getAttendancesOfSubject({
+      subject,
+      date, // TODO: change this to empty string before comitting
+    });
 
-    setData(attendances);
+    setData((previousState) => ({ ...previousState, attendances }));
     setLoading(false);
     setPagination({
       ...params.pagination,
@@ -64,34 +104,11 @@ export default function Attendance() {
   };
 
   useEffect(() => {
-    fetchData({
-      pagination,
-    });
+    fetchData(new Date().toISOString().split("T")[0]);
   }, []);
 
-  const handleTableChange = (newPagination, filters, sorter) => {
-    fetchData({
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      pagination: newPagination,
-      ...filters,
-    });
-  };
-
-  const handleDateFilter = (date) => {
-    if (date === null) {
-      return setFilteredData([]);
-    }
-
-    const filteredData = data.filter((record) => {
-      const recordDate = record.date.split("T")[0];
-      const valueOfDate = new Date(date).valueOf();
-      const valueOfRecord = new Date(recordDate).valueOf();
-
-      return valueOfDate === valueOfRecord;
-    });
-
-    setFilteredData(filteredData);
+  const handleDateFilter = (_, dateString) => {
+    fetchData(dateString);
   };
 
   const handleSearch = (searchTerm) => {
@@ -99,7 +116,7 @@ export default function Attendance() {
       return setFilteredData([]);
     }
 
-    const filteredData = data.filter((record) =>
+    const filteredData = data.attendances.filter((record) =>
       record.student.user.fullName.toLowerCase().includes(searchTerm)
     );
     setFilteredData(filteredData);
@@ -264,59 +281,28 @@ export default function Attendance() {
     },
   ];
 
-  return subject ? (
+  return (
     <Wrapper className="flex dashboard">
       <DashboardNav navItems={navItems} />
 
       <section>
-        {data.length ? (
+        {data.attendances?.length ? (
           <Title level={2} className="brand-text">
-            Subject: {data[0].subject.name}
+            Subject: {data.attendances[0].subject.name}
           </Title>
         ) : null}
         <div className="flex flex-column items-end">
-          <Button
-            icon={<ReloadOutlined />}
-            className="btn mb-2"
-            onClick={fetchData}
-          >
-            Refresh
-          </Button>
+          <DatePicker className="mb-2" onChange={handleDateFilter} />
           <Table
             className="w-100"
             bordered
             columns={attendancesColumnCommon}
             rowKey={(record) => record._id}
-            dataSource={filteredData.length ? filteredData : data}
+            dataSource={filteredData.length ? filteredData : data.attendances}
             pagination={pagination}
             loading={loading}
-            onChange={handleTableChange}
           />
         </div>
-      </section>
-    </Wrapper>
-  ) : (
-    <Wrapper className="flex dashboard">
-      <DashboardNav navItems={navItems} />
-
-      <section className="flex flex-column items-end">
-        <Button
-          icon={<ReloadOutlined />}
-          className="btn mb-2"
-          onClick={fetchData}
-        >
-          Refresh
-        </Button>
-        <Table
-          className="w-100"
-          bordered
-          columns={[...attendancesColumnCommon, ...attendancesColumnPrincipal]}
-          rowKey={(record) => record._id}
-          dataSource={filteredData.length ? filteredData : data}
-          pagination={pagination}
-          loading={loading}
-          onChange={handleTableChange}
-        />
       </section>
     </Wrapper>
   );

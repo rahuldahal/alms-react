@@ -11,6 +11,10 @@
   display: flex;
 }
 
+.wrap {
+  flex-wrap: wrap;
+}
+
 .flex-column {
   flex-direction: column;
 }
@@ -19,16 +23,42 @@
   align-items: end;
 }
 
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-8 {
+  gap: 2rem;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
 .pl-0 {
   padding-left: 0;
 }
 
 .mr-2 {
+  display: block;
   margin-right: 0.5rem;
 }
 
 .mb-2 {
+  display: block;
   margin-bottom: 0.5rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
 }
 
 .w-100 {
