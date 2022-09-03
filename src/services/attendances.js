@@ -1,5 +1,6 @@
 import config from "../config";
 import axios from "axios";
+import { getISODateOnly } from "../utils/date";
 
 const { apiBaseURL } = config;
 
@@ -19,7 +20,7 @@ export async function getAllAttendances() {
 }
 
 export async function getAttendancesOfSubject({ subject, date }) {
-  date = date || new Date().toISOString().split("T")[0];
+  date = date || getISODateOnly();
   try {
     const { data } = await axios({
       url: `${apiBaseURL}/attendances/subjects/${subject}?date=${date}&populate=all`,

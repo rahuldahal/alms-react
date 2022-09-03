@@ -12,6 +12,7 @@ import { studentsColumnCommon } from "../constants/tableColumns";
 import { getStudentsByCourseAndSemester } from "../services/students";
 import { getTeacherDashboardNav } from "./Attendance";
 import useData from "../hooks/useData";
+import { getISODateOnly } from "../utils/date";
 
 export default function StudentsOfASubject() {
   const [searchParams] = useSearchParams();
@@ -120,7 +121,7 @@ export default function StudentsOfASubject() {
       teacher: teacherId,
       student,
       isPresent,
-      date: new Date().toISOString().split("T")[0],
+      date: getISODateOnly(),
     });
 
     setDisabledButtons((previousState) => ({

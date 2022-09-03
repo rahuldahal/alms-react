@@ -12,6 +12,7 @@ import DashboardNav, {
 } from "../components/DashboardNav";
 import FormTrigger from "../components/FormTrigger";
 import useData from "../hooks/useData";
+import { getISODateOnly } from "../utils/date";
 
 export function getTeacherDashboardNav(subjects) {
   return subjects?.map(({ _id, name: subjectName, course, semester }) =>
@@ -104,7 +105,7 @@ export default function Attendance() {
   };
 
   useEffect(() => {
-    fetchData(new Date().toISOString().split("T")[0]);
+    fetchData(getISODateOnly());
   }, []);
 
   const handleDateFilter = (_, dateString) => {
