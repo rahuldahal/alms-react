@@ -41,6 +41,9 @@ export default function StudentsOfASubject() {
 
   const [disabledButtons, setDisabledButtons] = useState({});
 
+  const isButtonDisabled = (_id) =>
+    !!disabledButtons[_id] || studentsWithAttendance.includes(_id);
+
   const studentsColumnTeacherAction = [
     {
       title: "Actions",
@@ -50,14 +53,14 @@ export default function StudentsOfASubject() {
           <Button
             onClick={() => handleAttendance({ student: _id, isPresent: true })}
             type="primary"
-            disabled={!!disabledButtons[_id]}
+            disabled={isButtonDisabled(_id)}
           >
             Present
           </Button>
           <Button
             onClick={() => handleAttendance({ student: _id, isPresent: false })}
             danger
-            disabled={!!disabledButtons[_id]}
+            disabled={isButtonDisabled(_id)}
           >
             Absent
           </Button>
