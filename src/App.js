@@ -14,6 +14,7 @@ import StudentsOfASubject from "./Screens/StudentsOfASubject";
 import useAuth from "./hooks/useAuth";
 import { getAuthStatus } from "./services/user";
 import Courses from "./Screens/Courses";
+import { StudentAttendance } from "./Screens/StudentAttendance";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -72,6 +73,14 @@ function App() {
               <Route
                 path="/subjects/students"
                 element={<StudentsOfASubject />}
+                exact
+              />
+            </Route>
+
+            <Route element={<PrivateRoutes allowedRoles={["STUDENT"]} />}>
+              <Route
+                path="/my-attendance"
+                element={<StudentAttendance />}
                 exact
               />
             </Route>
