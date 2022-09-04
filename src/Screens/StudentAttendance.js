@@ -13,6 +13,7 @@ export function StudentAttendance() {
   const [loading, setLoading] = useState(true);
   const [subjects, setSubjects] = useState([]);
   const [attendances, setAttendances] = useState([]);
+  const [attendancesMap, setAttendancesMap] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -33,14 +34,32 @@ export function StudentAttendance() {
       return;
     }
 
+    const attendancesMap = {};
+    attendances.forEach((attendance) => {
+      attendancesMap[attendance.subject._id.toString()] = attendance.isPresent;
+    });
+
+    console.log(attendancesMap);
+    setAttendancesMap(attendancesMap);
     setLoading(false);
   }, [subjects, attendances]);
 
   const Subject = ({ subject }) => {
     const { _id, name, code } = subject;
+    console.log(attendancesMap[_id]);
+    const attendance = attendancesMap[_id]
+      ? "present"
+      : attendancesMap[_id] === undefined
+      ? "n/a"
+      : "absent";
 
     return (
-      <Card className="course" loading={loading} title={name}>
+      <Card
+        className="course"
+        data-attendance={attendance}
+        loading={loading}
+        title={name}
+      >
         <div>
           <em>{code}</em>
         </div>
@@ -48,7 +67,7 @@ export function StudentAttendance() {
         <Link
           to={`/attendances?subject=${_id}`}
           type="primary"
-          className="w-100 ant-btn ant-btn-primary"
+          className="w-100 mt-2 ant-btn ant-btn-primary"
         >
           View Attendance
         </Link>
