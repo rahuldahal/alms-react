@@ -86,3 +86,28 @@ section table th {
 .attendanceCTA {
   display: flex !important;
 }
+
+[data-attendance] {
+  position: relative;
+}
+
+[data-attendance]::after {
+  content: attr(data-attendance);
+  position: absolute;
+  right: -8px;
+  top: -1.5rem;
+  width: max-content;
+  padding: 0.5rem;
+  border-radius: 2px;
+  background: grey;
+  color: white;
+  text-transform: capitalize;
+}
+
+[data-attendance="absent"]::after {
+  background-color: #ff4d4f;
+}
+
+[data-attendance="present"]::after {
+  background-color: var(--brand-400);
+}

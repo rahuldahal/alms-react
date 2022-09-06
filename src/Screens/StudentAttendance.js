@@ -1,4 +1,5 @@
 import { Card } from "antd";
+import Title from "../components/Title";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
@@ -69,7 +70,7 @@ export function StudentAttendance() {
           type="primary"
           className="w-100 mt-2 ant-btn ant-btn-primary"
         >
-          View Attendance
+          View Calendar
         </Link>
       </Card>
     );
@@ -80,16 +81,9 @@ export function StudentAttendance() {
   ) : (
     <Wrapper className="flex dashboard">
       <section>
-        {/* <Table
-          bordered
-          columns={subjectsColumn}
-          rowKey={(record) => record._id}
-          dataSource={data}
-          pagination={pagination}
-          loading={loading}
-        /> */}
+        <Title>Today's Attendance</Title>
 
-        <div className="courses flex wrap gap-8 items-center justify-center">
+        <div className="courses flex wrap gap-10 items-center justify-center">
           {subjects.map((subject) => (
             <Subject key={subject._id} subject={subject} />
           ))}

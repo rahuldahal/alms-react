@@ -39,6 +39,10 @@
   gap: 2rem;
 }
 
+.gap-10 {
+  gap: 3rem;
+}
+
 .font-light {
   font-weight: 300;
 }
