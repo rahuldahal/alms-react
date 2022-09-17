@@ -6,6 +6,7 @@ import Wrapper from "../components/Wrapper";
 import useAuth from "../hooks/useAuth";
 import { getAttendancesOfStudent } from "../services/attendances";
 import { getSubjectsOfCourse } from "../services/subjects";
+import { getISODateOnly } from "../utils/date";
 
 export function StudentAttendance() {
   const { auth } = useAuth();
@@ -21,7 +22,7 @@ export function StudentAttendance() {
       const { subjects } = await getSubjectsOfCourse({ course, semester });
       const { attendances } = await getAttendancesOfStudent({
         student,
-        date: "2022-09-03",
+        date: getISODateOnly(),
       });
 
       setSubjects(subjects);
@@ -32,6 +33,8 @@ export function StudentAttendance() {
   useEffect(() => {
     console.log({ subjects, attendances });
     if (!subjects.length || !attendances.length) {
+      setAttendancesMap({});
+      setLoading(false);
       return;
     }
 
@@ -47,7 +50,7 @@ export function StudentAttendance() {
 
   const Subject = ({ subject }) => {
     const { _id, name, code } = subject;
-    console.log(attendancesMap[_id]);
+    console.log(attendancesMap);
     const attendance = attendancesMap[_id]
       ? "present"
       : attendancesMap[_id] === undefined
