@@ -1,18 +1,18 @@
-import useAuth from "../hooks/useAuth";
-import Wrapper from "../components/Wrapper";
-import { Button, Space, Table } from "antd";
-import React, { useEffect, useState } from "react";
-import DashboardNav from "../components/DashboardNav";
 import {
   createAttendance,
   getAttendancesOfSubject,
 } from "../services/attendances";
+import useAuth from "../hooks/useAuth";
+import useData from "../hooks/useData";
+import Wrapper from "../components/Wrapper";
+import { Button, Space, Table } from "antd";
+import { getISODateOnly } from "../utils/date";
+import React, { useEffect, useState } from "react";
+import DashboardNav from "../components/DashboardNav";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { studentsColumnCommon } from "../constants/tableColumns";
 import { getStudentsByCourseAndSemester } from "../services/students";
-import { getTeacherDashboardNav } from "./Attendance";
-import useData from "../hooks/useData";
-import { getISODateOnly } from "../utils/date";
+import { getTeacherDashboardNav } from "../components/TeacherDashboard.js";
 
 export default function StudentsOfASubject() {
   const [searchParams] = useSearchParams();

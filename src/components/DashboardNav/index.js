@@ -75,6 +75,23 @@ export const principalItems = [
   ]),
 ];
 
+export const commonItems = [
+  getItem("Attendance", "attendance", null, [
+    getItem(
+      // FormTrigger
+      <FormTrigger
+        type="link"
+        triggers="createAttendance"
+        className="createAttendance"
+      >
+        Create
+      </FormTrigger>,
+      "createAttendance",
+      null
+    ),
+  ]),
+];
+
 function getNavItems(role) {
   let item;
   switch (role) {
