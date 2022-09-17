@@ -224,6 +224,10 @@ export default function PrincipalDashboard() {
         },
       ],
     },
+    {
+      title: "Actions",
+      render: (data) => <Button type="primary">Toggle</Button>, // TODO: trigger toggle attendance service
+    },
   ];
 
   return (
