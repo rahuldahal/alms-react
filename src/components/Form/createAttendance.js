@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Checkbox, DatePicker, Form, Input, Modal, Select } from "antd";
 import { getStudentsByCourseAndSemester } from "../../services/students";
-import { createAttendance } from "../../services/attendances";
+import {
+  createAttendance,
+  getAttendancesOfSubject,
+} from "../../services/attendances";
 import useData from "../../hooks/useData";
 import { getTeacherBySubjectId } from "../../services/teachers";
+import { getISODateOnly } from "../../utils/date";
 
 const { Option } = Select;
 
@@ -21,7 +25,7 @@ export default function CreateAttendanceForm({
   const [teacherPlaceholder, setTeacherPlaceholder] =
     useState("Loading Teacher...");
 
-  const { data } = useData();
+  const { data, setData } = useData();
 
   const [students, setStudents] = useState([]);
   const [teacher, setTeacher] = useState(null);
@@ -67,9 +71,15 @@ export default function CreateAttendanceForm({
       isPresent: !!isPresent,
       date: new Date(date).toISOString().split("T")[0],
     });
-    console.log(status);
 
-    // TODO: update the attendance table after successful creation.
+    // update the attendance table after successful creation.
+
+    const data = await getAttendancesOfSubject({
+      subject,
+      date: new Date(date).toISOString().split("T")[0],
+    });
+
+    setData(data);
   };
 
   const handleOk = async () => {
