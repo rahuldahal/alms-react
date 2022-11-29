@@ -74,3 +74,21 @@ export async function createAttendance(values) {
     return e;
   }
 }
+
+export async function toggleAttendance({ _id, isPresent }) {
+  try {
+    const res = await axios({
+      url: `${apiBaseURL}/attendances/${_id}`,
+      method: "patch",
+      withCredentials: true,
+      data: {
+        isPresent: !isPresent,
+      },
+    });
+
+    return res;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}

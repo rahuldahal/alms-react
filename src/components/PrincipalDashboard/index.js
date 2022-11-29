@@ -8,7 +8,10 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import DashboardNav, { principalItems } from "../DashboardNav";
 import { Button, DatePicker, Input, Space, Table } from "antd";
-import { getAttendancesOfSubject } from "../../services/attendances";
+import {
+  getAttendancesOfSubject,
+  toggleAttendance,
+} from "../../services/attendances";
 
 export default function PrincipalDashboard() {
   const [searchParams] = useSearchParams();
@@ -139,6 +142,22 @@ export default function PrincipalDashboard() {
     },
   });
 
+  const toggleAttendanceStatus = async ({ _id, isPresent }) => {
+    await toggleAttendance({ _id, isPresent });
+    const { attendances } = data;
+
+    const updatedAttendances = attendances.map((attendance) => {
+      if (attendance._id !== _id) {
+        return attendance;
+      }
+
+      attendance.isPresent = !isPresent;
+      return attendance;
+    });
+
+    setData({ ...data, attendances: updatedAttendances });
+  };
+
   const attendancesColumnCommon = [
     {
       title: "Student",
@@ -226,7 +245,14 @@ export default function PrincipalDashboard() {
     },
     {
       title: "Actions",
-      render: (data) => <Button type="primary">Toggle</Button>, // TODO: trigger toggle attendance service
+      render: (isPresent) => (
+        <Button
+          type="primary"
+          onClick={() => toggleAttendanceStatus(isPresent)}
+        >
+          Toggle
+        </Button>
+      ), // TODO: trigger toggle attendance service
     },
   ];
 
