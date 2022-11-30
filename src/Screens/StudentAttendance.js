@@ -69,7 +69,7 @@ export function StudentAttendance() {
         </div>
 
         <Link
-          to={`/attendances?subject=${_id}`}
+          to={`/attendance-calendar?subject=${_id}`}
           type="primary"
           className="w-100 mt-2 ant-btn ant-btn-primary"
         >

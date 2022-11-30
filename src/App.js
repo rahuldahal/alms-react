@@ -1,20 +1,22 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
+
+import HODs from "./Screens/HODs";
 import Nav from "./components/Nav";
+import useAuth from "./hooks/useAuth";
 import Landing from "./Screens/Landing";
-import PrivateRoutes from "./components/PrivateRoutes";
-import { Routes, Route } from "react-router-dom";
+import Courses from "./Screens/Courses";
 import Layout from "./components/Layout";
 import Students from "./Screens/Students";
 import Teachers from "./Screens/Teachers";
-import HODs from "./Screens/HODs";
-import Attendance from "./Screens/Attendance";
 import Subjects from "./Screens/Subjects";
-import StudentsOfASubject from "./Screens/StudentsOfASubject";
-import useAuth from "./hooks/useAuth";
+import Attendance from "./Screens/Attendance";
 import { getAuthStatus } from "./services/user";
-import Courses from "./Screens/Courses";
+import { Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import PrivateRoutes from "./components/PrivateRoutes";
+import StudentsOfASubject from "./Screens/StudentsOfASubject";
 import { StudentAttendance } from "./Screens/StudentAttendance";
+import AttendanceCalendar from "./components/AttendanceCalendar";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -81,6 +83,14 @@ function App() {
               <Route
                 path="/my-attendance"
                 element={<StudentAttendance />}
+                exact
+              />
+            </Route>
+
+            <Route element={<PrivateRoutes allowedRoles={["STUDENT"]} />}>
+              <Route
+                path="/attendance-calendar"
+                element={<AttendanceCalendar />}
                 exact
               />
             </Route>
