@@ -1,8 +1,8 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
+import Title from "../components/Title";
 import TeacherDashboard from "../components/TeacherDashboard.js";
 import PrincipalDashboard from "../components/PrincipalDashboard";
-import Title from "../components/Title";
 
 export default function Attendance() {
   const { auth } = useAuth();
