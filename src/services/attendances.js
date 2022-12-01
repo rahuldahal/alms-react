@@ -57,6 +57,22 @@ export async function getAttendancesOfStudent({ student, date, subject }) {
   }
 }
 
+export async function getAttendancesOfMonth({ student, date, subject }) {
+  date = date || getISODateOnly();
+  try {
+    const { data } = await axios({
+      url: `${apiBaseURL}/attendances/my-attendance?student=${student}&subject=${subject}&date=${date}`,
+      method: "get",
+      withCredentials: true,
+    });
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}
+
 export async function createAttendance(values) {
   try {
     const res = await axios({

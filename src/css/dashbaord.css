@@ -83,6 +83,15 @@ section table th {
   border-radius: 0.25rem;
 }
 
+.color-neutral {
+  background: rgb(232, 246, 241);
+  padding: 0.25rem 0.5rem;
+  color: #1d1d1d;
+  font-style: italic;
+  font-size: 0.8em;
+  border-radius: 0.25rem;
+}
+
 .attendanceCTA {
   display: flex !important;
 }
