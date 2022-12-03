@@ -20,7 +20,7 @@ export default function Landing() {
         <div className="flex hero-row">
           <div className="hero-col">
             <Title level={1} className="AppTitle">
-              Attendance and Leave <br /> Management System
+              Attendance <br /> Management System
             </Title>
 
             <FormTrigger size="large" triggers="signIn" className="CTA">

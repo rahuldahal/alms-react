@@ -27,7 +27,7 @@ export default function Nav({ isLoading }) {
       <Wrapper className="flex">
         <Link to="/">
           <Title level={4} className="logo">
-            ALMS
+            AMS
           </Title>
         </Link>
 
