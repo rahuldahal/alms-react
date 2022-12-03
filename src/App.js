@@ -1,5 +1,6 @@
 import "./App.css";
 
+import { Spin } from "antd";
 import HODs from "./Screens/HODs";
 import Nav from "./components/Nav";
 import useAuth from "./hooks/useAuth";
@@ -41,7 +42,7 @@ function App() {
     <>
       <Nav loading={isLoading} />
       {isLoading ? (
-        <h1>Loading...</h1>
+        <Spin size="large" className="apiLoader" />
       ) : (
         <Routes>
           <Route path="/" element={<Layout />}>

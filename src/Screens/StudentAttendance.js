@@ -1,12 +1,12 @@
-import { Card } from "antd";
+import { Card, Spin } from "antd";
+import useAuth from "../hooks/useAuth";
 import Title from "../components/Title";
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
-import useAuth from "../hooks/useAuth";
-import { getAttendancesOfStudent } from "../services/attendances";
-import { getSubjectsOfCourse } from "../services/subjects";
 import { getISODateOnly } from "../utils/date";
+import React, { useEffect, useState } from "react";
+import { getSubjectsOfCourse } from "../services/subjects";
+import { getAttendancesOfStudent } from "../services/attendances";
 
 export function StudentAttendance() {
   const { auth } = useAuth();
@@ -80,7 +80,7 @@ export function StudentAttendance() {
   };
 
   return loading ? (
-    <h1>Loading...</h1>
+    <Spin size="large" className="apiLoader" />
   ) : (
     <Wrapper className="flex dashboard">
       <section>

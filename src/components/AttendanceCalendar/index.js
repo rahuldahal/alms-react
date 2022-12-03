@@ -1,4 +1,4 @@
-import { Calendar } from "antd";
+import { Calendar, Spin } from "antd";
 import useAuth from "../../hooks/useAuth";
 import useData from "../../hooks/useData";
 import { getISODateOnly } from "../../utils/date";
@@ -66,7 +66,7 @@ export default function AttendanceCalendar() {
     return <span className="color-red">Absent</span>;
   };
   return loading ? (
-    <h1>Loading...</h1>
+    <Spin size="large" className="apiLoader" />
   ) : (
     <Calendar dateCellRender={dateCellRender} onChange={onChangeHandler} />
   );
