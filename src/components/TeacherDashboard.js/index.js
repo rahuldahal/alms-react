@@ -6,8 +6,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import DashboardNav, { getItem } from "../DashboardNav";
 import { Link, useSearchParams } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
-import { Button, DatePicker, Input, Space, Table } from "antd";
 import { getAttendancesOfSubject } from "../../services/attendances";
+import { Button, DatePicker, Input, Space, Spin, Table } from "antd";
 
 export function getTeacherDashboardNav(subjects) {
   return subjects?.map(({ _id, name: subjectName, course, semester }) =>
@@ -252,27 +252,35 @@ export default function TeacherDashboard() {
 
   return (
     <Wrapper className="flex dashboard">
-      <DashboardNav navItems={navItems} />
+      {loading ? (
+        <Spin size="large" className="apiLoader" />
+      ) : (
+        <>
+          <DashboardNav navItems={navItems} />
 
-      <section>
-        {data.attendances?.length ? (
-          <Title level={2} className="brand-text">
-            Subject: {data.attendances[0].subject.name}
-          </Title>
-        ) : null}
-        <div className="flex flex-column items-end">
-          <DatePicker className="mb-2" onChange={handleDateFilter} />
-          <Table
-            className="w-100"
-            bordered
-            columns={attendancesColumnCommon}
-            rowKey={(record) => record._id}
-            dataSource={filteredData.length ? filteredData : data.attendances}
-            pagination={pagination}
-            loading={loading}
-          />
-        </div>
-      </section>
+          <section>
+            {data.attendances?.length ? (
+              <Title level={2} className="brand-text">
+                Subject: {data.attendances[0].subject.name}
+              </Title>
+            ) : null}
+            <div className="flex flex-column items-end">
+              <DatePicker className="mb-2" onChange={handleDateFilter} />
+              <Table
+                className="w-100"
+                bordered
+                columns={attendancesColumnCommon}
+                rowKey={(record) => record._id}
+                dataSource={
+                  filteredData.length ? filteredData : data.attendances
+                }
+                pagination={pagination}
+                loading={loading}
+              />
+            </div>
+          </section>
+        </>
+      )}
     </Wrapper>
   );
 }
