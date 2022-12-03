@@ -1,10 +1,10 @@
 import { Calendar } from "antd";
+import useAuth from "../../hooks/useAuth";
 import useData from "../../hooks/useData";
 import { getISODateOnly } from "../../utils/date";
 import { useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { getAttendancesOfMonth } from "../../services/attendances";
-import useAuth from "../../hooks/useAuth";
 
 export default function AttendanceCalendar() {
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,7 @@ export default function AttendanceCalendar() {
     setLoading(false);
   }, [attendanceDateMap]);
 
-  const onSelectHandler = (value) => {
+  const onChangeHandler = (value) => {
     setDate(getISODateOnly(value.format()));
   };
 
@@ -68,6 +68,6 @@ export default function AttendanceCalendar() {
   return loading ? (
     <h1>Loading...</h1>
   ) : (
-    <Calendar dateCellRender={dateCellRender} onSelect={onSelectHandler} />
+    <Calendar dateCellRender={dateCellRender} onChange={onChangeHandler} />
   );
 }
