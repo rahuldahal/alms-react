@@ -56,6 +56,10 @@ form .ant-picker {
   margin: auto;
 }
 
+.ant-picker-calendar-date-content {
+  text-align: right !important;
+}
+
 .apiLoader {
   transform: scale(5);
   display: block;
