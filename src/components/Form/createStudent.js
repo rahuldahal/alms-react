@@ -1,7 +1,8 @@
+import useData from "../../hooks/useData";
 import React, { useEffect, useState } from "react";
-import { Form, Input, InputNumber, Modal, Select } from "antd";
 import { getAllCourses } from "../../services/courses";
-import { createStudent } from "../../services/students";
+import { createStudent, getAllStudents } from "../../services/students";
+import { Form, Input, InputNumber, Modal, Select } from "antd";
 
 const { Option } = Select;
 
@@ -16,6 +17,8 @@ export default function CreateStudentForm({
   const [coursePlaceholder, setCoursePlaceholder] =
     useState("Loading Courses...");
   const [courses, setCourses] = useState([]);
+
+  const { setData } = useData();
 
   useEffect(() => {
     if (!visible) {
@@ -54,9 +57,11 @@ export default function CreateStudentForm({
       semester,
       role: "STUDENT",
     });
-    console.log(status);
 
-    // TODO: update the attendance table after successful creation.
+    if (status === 201) {
+      const { students } = await getAllStudents();
+      setData((previousState) => ({ ...previousState, students }));
+    }
   };
 
   const handleOk = async () => {

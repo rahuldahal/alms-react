@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from "react";
+import { Table } from "antd";
+import useData from "../hooks/useData";
 import Wrapper from "../components/Wrapper";
-import { Button, Table } from "antd";
+import React, { useEffect, useState } from "react";
 import { getAllStudents } from "../services/students";
-import {
-  studentsColumnCommon,
-  studentsColumnPrincipalAction,
-} from "../constants/tableColumns";
 import DashboardNav from "../components/DashboardNav";
-import { ReloadOutlined } from "@ant-design/icons";
+import { studentsColumnCommon } from "../constants/tableColumns";
 
 export default function Students() {
   // states
-  const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
 
+  const { data, setData } = useData();
+
   const fetchData = async (params = {}) => {
     setLoading(true);
     const { students, total } = await getAllStudents();
 
-    setData(students);
+    setData((previousState) => ({ ...previousState, students }));
     setLoading(false);
     setPagination({
       ...params.pagination,
@@ -50,19 +48,12 @@ export default function Students() {
       <DashboardNav />
 
       <section className="flex flex-column items-end">
-        <Button
-          icon={<ReloadOutlined />}
-          className="btn mb-2"
-          onClick={fetchData}
-        >
-          Refresh
-        </Button>
         <Table
           className="w-100"
           bordered
-          columns={[...studentsColumnCommon, ...studentsColumnPrincipalAction]}
+          columns={[...studentsColumnCommon]}
           rowKey={(record) => record._id}
-          dataSource={data}
+          dataSource={data.students}
           pagination={pagination}
           loading={loading}
           onChange={handleTableChange}
