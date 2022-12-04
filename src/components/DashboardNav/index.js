@@ -28,7 +28,7 @@ export function MenuLink({ to, label }) {
 export const principalItems = [
   getItem("Students", "students", null, [
     getItem(
-      <MenuLink to={users.students.api} label="All" />,
+      <MenuLink to={users.students.ui} label="All" />,
       "allStudents",
       null
     ),
