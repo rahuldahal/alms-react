@@ -1,25 +1,31 @@
-import { Calendar, Spin } from "antd";
+import { Button, Calendar, Spin } from "antd";
 import useAuth from "../../hooks/useAuth";
 import useData from "../../hooks/useData";
 import { getISODateOnly } from "../../utils/date";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { getAttendancesOfMonth } from "../../services/attendances";
+import DashboardNav, { getItem } from "../DashboardNav";
+import Wrapper from "../Wrapper";
 
 export default function AttendanceCalendar() {
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState(getISODateOnly());
   const [attendanceDateMap, setAttendanceDateMap] = useState({});
+  const [subjectIdNameMap, setSubjectIdNameMap] = useState(null);
+  const [currentSubjectId, setCurrentSubjectId] = useState(null);
+
   const { data, setData } = useData();
   const { auth } = useAuth();
   const [searchParams] = useSearchParams();
   const subject = searchParams.get("subject");
 
-  const fetchData = async () => {
+  const fetchData = async ({ subjectId = subject }) => {
     setLoading(true);
+    setCurrentSubjectId(subjectId);
     const { attendances } = await getAttendancesOfMonth({
       student: auth.studentId,
-      subject,
+      subject: subjectId,
       date,
     });
 
@@ -28,8 +34,18 @@ export default function AttendanceCalendar() {
   };
 
   useEffect(() => {
+    const subjectIdNameMap = {};
+    data.subjects?.forEach(({ _id, name: subjectName }) => {
+      subjectIdNameMap[_id] = subjectName;
+    });
+
+    setSubjectIdNameMap(subjectIdNameMap);
+    console.log(subjectIdNameMap);
+  }, []);
+
+  useEffect(() => {
     setLoading(true);
-    fetchData();
+    fetchData({});
   }, [date]);
 
   useEffect(() => {
@@ -72,9 +88,35 @@ export default function AttendanceCalendar() {
 
     return <span className="color-red">Absent</span>;
   };
-  return loading ? (
-    <Spin size="large" className="apiLoader" />
-  ) : (
-    <Calendar dateCellRender={dateCellRender} onChange={onChangeHandler} />
+
+  const getDashboardNavItems = () => {
+    return data.subjects?.map(({ _id, name: subjectName }) => {
+      return getItem(
+        <Button
+          type={currentSubjectId === _id ? "primary" : "text"}
+          onClick={() => fetchData({ subjectId: _id })}
+        >
+          {subjectName}
+        </Button>,
+        _id,
+        null
+      );
+    });
+  };
+
+  return (
+    <Wrapper className="flex">
+      {loading ? (
+        <Spin size="large" className="apiLoader" />
+      ) : (
+        <>
+          <DashboardNav navItems={getDashboardNavItems()} />
+          <Calendar
+            dateCellRender={dateCellRender}
+            onChange={onChangeHandler}
+          />
+        </>
+      )}
+    </Wrapper>
   );
 }
