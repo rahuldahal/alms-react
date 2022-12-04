@@ -1,4 +1,5 @@
 import { Card, Spin } from "antd";
+import useData from "../hooks/useData";
 import useAuth from "../hooks/useAuth";
 import Title from "../components/Title";
 import { Link } from "react-router-dom";
@@ -11,11 +12,11 @@ import { getAttendancesOfStudent } from "../services/attendances";
 export function StudentAttendance() {
   const { auth } = useAuth();
   const { studentId: student, courseId: course, semester } = auth;
-  const [date, setDate] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [subjects, setSubjects] = useState([]);
   const [attendances, setAttendances] = useState([]);
   const [attendancesMap, setAttendancesMap] = useState({});
+
+  const { data, setData } = useData();
 
   useEffect(() => {
     (async () => {
@@ -25,14 +26,13 @@ export function StudentAttendance() {
         date: getISODateOnly(),
       });
 
-      setSubjects(subjects);
+      setData((previousState) => ({ ...previousState, subjects }));
       setAttendances(attendances);
     })();
   }, []);
 
   useEffect(() => {
-    console.log({ subjects, attendances });
-    if (!subjects.length || !attendances.length) {
+    if (!data.subjects?.length || !attendances.length) {
       setAttendancesMap({});
       setLoading(false);
       return;
@@ -46,7 +46,7 @@ export function StudentAttendance() {
     console.log(attendancesMap);
     setAttendancesMap(attendancesMap);
     setLoading(false);
-  }, [subjects, attendances]);
+  }, [data.subjects, attendances]);
 
   const Subject = ({ subject }) => {
     const { _id, name, code } = subject;
@@ -87,7 +87,7 @@ export function StudentAttendance() {
         <Title>Today's Attendance</Title>
 
         <div className="courses flex wrap gap-10 items-center justify-center">
-          {subjects.map((subject) => (
+          {data.subjects?.map((subject) => (
             <Subject key={subject._id} subject={subject} />
           ))}
         </div>
