@@ -69,20 +69,20 @@ export default function AttendanceCalendar() {
   };
 
   const dateCellRender = (value) => {
-    const date = getISODateOnly(value.format());
+    const currentDate = getISODateOnly(value.format());
 
-    const month = new Date(value.format()).getMonth() + 1;
-    const currentMonth = new Date().getMonth() + 1;
+    const currentMonth = new Date(value.format()).getMonth() + 1;
+    const selectedMonth = new Date(date).getMonth() + 1;
 
-    if (month !== currentMonth) {
+    if (currentMonth !== selectedMonth) {
       return;
     }
 
-    if (attendanceDateMap[date] === undefined) {
+    if (attendanceDateMap[currentDate] === undefined) {
       return <span className="color-neutral">N/A</span>;
     }
 
-    if (attendanceDateMap[date]) {
+    if (attendanceDateMap[currentDate]) {
       return <span className="color-green">Present</span>;
     }
 
