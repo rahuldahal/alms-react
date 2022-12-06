@@ -14,6 +14,7 @@ export default function AttendanceCalendar() {
   const [attendanceDateMap, setAttendanceDateMap] = useState({});
   const [subjectIdNameMap, setSubjectIdNameMap] = useState(null);
   const [currentSubjectId, setCurrentSubjectId] = useState(null);
+  const [presentDaysCount, setPresentDaysCount] = useState(1);
 
   const { data, setData } = useData();
   const { auth } = useAuth();
@@ -23,13 +24,13 @@ export default function AttendanceCalendar() {
   const fetchData = async ({ subjectId = subject }) => {
     setLoading(true);
     setCurrentSubjectId(subjectId);
-    const { attendances } = await getAttendancesOfMonth({
+    const { attendances, total } = await getAttendancesOfMonth({
       student: auth.studentId,
       subject: subjectId,
       date,
     });
 
-    setData((previousState) => ({ ...previousState, attendances }));
+    setData((previousState) => ({ ...previousState, attendances, total }));
     setLoading(false);
   };
 
@@ -40,7 +41,15 @@ export default function AttendanceCalendar() {
     });
 
     setSubjectIdNameMap(subjectIdNameMap);
-    console.log(subjectIdNameMap);
+
+    // set presentDays count
+    let isPresentCount = 0;
+    data.attendances?.forEach(({ isPresent }) => {
+      if (isPresent) {
+        isPresentCount++;
+        setPresentDaysCount(isPresentCount);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -111,10 +120,23 @@ export default function AttendanceCalendar() {
       ) : (
         <>
           <DashboardNav navItems={getDashboardNavItems()} />
-          <Calendar
-            dateCellRender={dateCellRender}
-            onChange={onChangeHandler}
-          />
+          <section>
+            <div className="flex gap-4 items-center">
+              <h2>Working Days: {data.total}</h2>
+              <div>
+                <p className="color-green">
+                  <strong>Days Present:</strong> {presentDaysCount}
+                </p>
+                <p className="color-red">
+                  <strong>Days Absent:</strong> {data.total - presentDaysCount}
+                </p>
+              </div>
+            </div>
+            <Calendar
+              dateCellRender={dateCellRender}
+              onChange={onChangeHandler}
+            />
+          </section>
         </>
       )}
     </Wrapper>
