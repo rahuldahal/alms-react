@@ -81,10 +81,15 @@ export default function AttendanceCalendar() {
     const currentDate = getISODateOnly(value.format());
 
     const currentMonth = new Date(value.format()).getMonth() + 1;
+    const currentDay = new Date(value.format()).getDay() + 1;
     const selectedMonth = new Date(date).getMonth() + 1;
 
     if (currentMonth !== selectedMonth) {
       return;
+    }
+
+    if (currentDay === 7) {
+      return <em>Holiday</em>;
     }
 
     if (attendanceDateMap[currentDate] === undefined) {
