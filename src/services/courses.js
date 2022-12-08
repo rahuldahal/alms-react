@@ -17,3 +17,18 @@ export async function getAllCourses() {
     return e;
   }
 }
+
+export async function getCoursesOfHOD({ hodId }) {
+  try {
+    const { data } = await axios({
+      url: `${apiBaseURL}/hods/courses?hodId=${hodId}`,
+      method: "get",
+      withCredentials: true,
+    });
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    return e;
+  }
+}

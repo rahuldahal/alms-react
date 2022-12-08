@@ -23,6 +23,7 @@ export const attendancesAPI = {
 
 export const dashboardDefaults = {
   PRINCIPAL: "/courses",
+  HOD: "/courses",
   TEACHER: "/subjects",
   STUDENT: "/my-attendance",
 };

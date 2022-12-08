@@ -3,22 +3,36 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardNav from "../components/DashboardNav";
 import Wrapper from "../components/Wrapper";
-import { getAllCourses } from "../services/courses";
+import useAuth from "../hooks/useAuth";
+import { getAllCourses, getCoursesOfHOD } from "../services/courses";
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { auth } = useAuth();
+  const { role, hodId } = auth;
 
   useEffect(() => {
     setLoading(courses.length <= 0);
   }, [courses]);
 
   useEffect(() => {
-    (async () => {
-      const { courses } = await getAllCourses();
+    if (role === "PRINCIPAL") {
+      (async () => {
+        const { courses } = await getAllCourses();
 
-      setCourses(courses);
-    })();
+        setCourses(courses);
+      })();
+    }
+
+    if (role === "HOD") {
+      (async () => {
+        const { courses } = await getCoursesOfHOD({ hodId });
+
+        setCourses(courses);
+      })();
+    }
   }, []);
 
   const Course = ({ course }) => {
