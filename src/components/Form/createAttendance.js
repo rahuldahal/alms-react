@@ -74,12 +74,12 @@ export default function CreateAttendanceForm({
 
     // update the attendance table after successful creation.
 
-    const data = await getAttendancesOfSubject({
+    const { attendances } = await getAttendancesOfSubject({
       subject,
       date: new Date(date).toISOString().split("T")[0],
     });
 
-    setData(data);
+    setData((previousState) => ({ ...previousState, attendances }));
   };
 
   const handleOk = async () => {
