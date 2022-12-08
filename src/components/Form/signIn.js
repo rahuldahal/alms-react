@@ -55,14 +55,7 @@ export default function SignInForm({ visible, setMakeModalVisible, onCancel }) {
       confirmLoading={confirmLoading}
       onOk={handleOk}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        name="signInForm"
-        initialValues={{
-          email: "bharat@email.com",
-        }}
-      >
+      <Form form={form} layout="vertical" name="signInForm">
         <Form.Item
           label="Email"
           name="email"
