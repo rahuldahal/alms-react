@@ -1,10 +1,10 @@
-import { Card } from "antd";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import DashboardNav from "../components/DashboardNav";
-import Wrapper from "../components/Wrapper";
-import useAuth from "../hooks/useAuth";
-import { getAllCourses, getCoursesOfHOD } from "../services/courses";
+import { Card } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import DashboardNav from '../components/DashboardNav';
+import Wrapper from '../components/Wrapper';
+import useAuth from '../hooks/useAuth';
+import { getAllCourses, getCoursesOfHOD } from '../services/courses';
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
@@ -18,7 +18,7 @@ export default function Courses() {
   }, [courses]);
 
   useEffect(() => {
-    if (role === "PRINCIPAL") {
+    if (role === 'PRINCIPAL') {
       (async () => {
         const { courses } = await getAllCourses();
 
@@ -26,7 +26,7 @@ export default function Courses() {
       })();
     }
 
-    if (role === "HOD") {
+    if (role === 'HOD') {
       (async () => {
         const { courses } = await getCoursesOfHOD({ hodId });
 
@@ -37,8 +37,8 @@ export default function Courses() {
 
   const Course = ({ course }) => {
     const { _id, courseName, shortName, affiliatedTo, duration } = course;
-    const [durationTime, durationType] = duration.split(" ");
-    const durationTimeInNumber = durationTime === "Eight" ? 8 : 4;
+    const [durationTime, durationType] = duration.split(' ');
+    const durationTimeInNumber = durationTime === 'Eight' ? 8 : 4;
 
     return (
       <Card
@@ -48,7 +48,6 @@ export default function Courses() {
         extra={<a href="#">Details</a>} // TODO: use <Link> to navigate
       >
         <div>
-          <em>{courseName}</em>
           <p className="font-light">
             {affiliatedTo} - {duration}
           </p>
@@ -61,12 +60,16 @@ export default function Courses() {
           </p>
           <small>As of: {new Date().toLocaleDateString()}</small>
         </div> */}
-        <Semesters duration={durationTimeInNumber} course={_id} />
+        <Semesters
+          duration={durationTimeInNumber}
+          durationType={durationType}
+          course={_id}
+        />
       </Card>
     );
   };
 
-  const Semesters = ({ duration, course }) => {
+  const Semesters = ({ duration, durationType, course }) => {
     let semesters = [];
 
     for (let i = 1; i <= duration; i++) {
@@ -83,7 +86,9 @@ export default function Courses() {
 
     return (
       <div>
-        <small className="mb-2">Choose a semester:</small>
+        <small className="mb-2">
+          Choose a {durationType === 'Semesters' ? 'semester' : 'year'}:
+        </small>
         <div className="semesters w-100 flex">{semesters}</div>
       </div>
     );
