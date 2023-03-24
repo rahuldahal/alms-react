@@ -15,7 +15,7 @@ export default function Landing() {
   }
 
   return (
-    <>
+    <section className="landing-bg">
       <Wrapper className="hero">
         <div className="flex hero-row">
           <div className="hero-col">
@@ -31,7 +31,7 @@ export default function Landing() {
           <video
             width="720"
             height="480"
-            poster="/ALMS%20Dashboard.png"
+            poster="/ALMS%20Dashboard.jpg"
             controls
             loop
           >
@@ -43,6 +43,6 @@ export default function Landing() {
           </video>
         </div>
       </Wrapper>
-    </>
+    </section>
   );
 }

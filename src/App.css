@@ -1,11 +1,13 @@
-@import "~antd/dist/antd.css";
-@import "css/variables.css";
-@import "css/common.css";
-@import "css/nav.css";
-@import "css/landing.css";
-@import "css/dashbaord.css";
-@import "css/overrides.css";
+@import '~antd/dist/antd.css';
+@import 'css/variables.css';
+@import 'css/common.css';
+@import 'css/nav.css';
+@import 'css/landing.css';
+@import 'css/dashbaord.css';
+@import 'css/overrides.css';
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
+  max-height: 100vh;
+  overflow: hidden;
 }
