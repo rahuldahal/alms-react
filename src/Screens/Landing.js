@@ -1,10 +1,10 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import FormTrigger from "../components/FormTrigger";
-import Title from "../components/Title";
-import Wrapper from "../components/Wrapper";
-import { dashboardDefaults } from "../constants/urls";
-import useAuth from "../hooks/useAuth";
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import FormTrigger from '../components/FormTrigger';
+import Title from '../components/Title';
+import Wrapper from '../components/Wrapper';
+import { dashboardDefaults } from '../constants/urls';
+import useAuth from '../hooks/useAuth';
 
 export default function Landing() {
   const { auth } = useAuth();
@@ -28,10 +28,19 @@ export default function Landing() {
             </FormTrigger>
           </div>
 
-          <img
-            src="https://picsum.photos/640/480"
-            alt="dashboard art of the application"
-          />
+          <video
+            width="720"
+            height="480"
+            poster="/ALMS%20Dashboard.png"
+            controls
+            loop
+          >
+            <source
+              src="https://res.cloudinary.com/rdaahal/video/upload/v1679649648/alms-storytelling_fe8dxq.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </Wrapper>
     </>
