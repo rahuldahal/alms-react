@@ -9,6 +9,15 @@
   }
 }
 
+@media (max-width: 1300px) {
+  .hero {
+    margin: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 10vh;
+  }
+}
+
 .btn {
   width: max-content;
 }
