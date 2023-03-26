@@ -11,3 +11,8 @@ body {
   max-height: 100vh;
   overflow: hidden;
 }
+@media (max-width: 1024px) {
+  body {
+    overflow-y: auto;
+  }
+}

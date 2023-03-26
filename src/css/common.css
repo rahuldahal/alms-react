@@ -3,6 +3,12 @@
   margin: auto;
 }
 
+@media (max-width: 1300px) {
+  .wrapper {
+    max-width: 1024px;
+  }
+}
+
 .btn {
   width: max-content;
 }

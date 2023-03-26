@@ -37,6 +37,12 @@ form .ant-picker {
   color: black;
 }
 
+@media (max-width: 1024px) {
+  .ant-btn-text {
+    color: #fcfcfc !important;
+  }
+}
+
 .ant-card-body {
   padding-top: 0.25rem !important;
 }
@@ -56,8 +62,22 @@ form .ant-picker {
   margin: auto;
 }
 
+@media (max-width: 1024px) {
+  .ant-picker-calendar {
+    position: relative;
+    z-index: -1;
+    width: 100%;
+  }
+}
+
 .ant-picker-calendar-date-content {
   text-align: right !important;
+}
+
+@media (max-width: 768px) {
+  .ant-picker-calendar-date-content {
+    font-size: 0.6rem !important;
+  }
 }
 
 .apiLoader {

@@ -17,10 +17,75 @@
   padding: 0 !important;
 }
 
+@media (max-width: 1024px) {
+  .wrapper {
+    display: relative;
+    padding-bottom: 10vh;
+  }
+
+  .dashboardNav {
+    position: fixed;
+    top: unset;
+    left: 0;
+    bottom: 0;
+    width: 100% !important;
+    height: 5vh;
+    padding-right: 0;
+    padding-bottom: 5vh;
+    background-color: var(--brand-400);
+  }
+
+  .dashboardNav::before {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    transform: translateY(-50%);
+    width: 2rem;
+    height: 2rem;
+    background-image: url('../../public/arrow-up-circle.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .dashboardNav li {
+    transform: scale(0.25);
+    opacity: 0;
+    width: max-content !important;
+    transition: transform, opacity 0.3s 0.5s ease-in-out;
+  }
+
+  .dashboardNav:focus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: max-content;
+  }
+
+  .dashboardNav:focus::before {
+    top: 2rem;
+    transform: translateY(0) rotate(180deg);
+  }
+
+  .dashboardNav:focus li {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 section {
   width: 100%;
   padding-top: 40px;
   padding-left: 2rem;
+}
+@media (max-width: 1024px) {
+  section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 section table {
@@ -113,10 +178,10 @@ section table th {
   text-transform: capitalize;
 }
 
-[data-attendance="absent"]::after {
+[data-attendance='absent']::after {
   background-color: #ff4d4f;
 }
 
-[data-attendance="present"]::after {
+[data-attendance='present']::after {
   background-color: var(--brand-400);
 }

@@ -25,6 +25,7 @@
 }
 
 .hero-row {
+  gap: 1rem;
   width: 100%;
   margin: auto;
   justify-content: space-between;
@@ -50,8 +51,10 @@
   transform: translateY(-4px);
 }
 
-img {
-  width: 640px;
-  height: 480px;
-  border-radius: 1rem;
+@media (max-width: 1300px) {
+  video {
+    width: 640px;
+    height: 360px;
+    border-radius: 1rem;
+  }
 }
