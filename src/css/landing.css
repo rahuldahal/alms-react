@@ -59,11 +59,14 @@
   transform: translateY(-4px);
 }
 
+video {
+  border-radius: 1rem;
+}
+
 @media (max-width: 1300px) {
   video {
     width: 640px;
     height: 360px;
-    border-radius: 1rem;
   }
 }
 
@@ -71,6 +74,12 @@
   video {
     width: 480px;
     height: 360px;
-    border-radius: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  video {
+    width: 360px;
+    height: 240px;
   }
 }
